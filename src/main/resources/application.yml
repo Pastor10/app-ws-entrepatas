@@ -1,0 +1,66 @@
+app:
+  jwtExpirationInMs: 604800000
+  jwtSecret: JWTSuperSecretKey
+  jwtSecretIntegration: JWTSuperSecretKey
+  aws:
+    region: sa-east-1
+    s3:
+      bucket: entrepatas
+      baseUrl: https://entrepatas.s3-sa-east-1.amazonaws.com
+    iam:
+      access_key_id: AKIA4JEATZWMMFXWQIMX
+      secret_access_key: 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
+  url:
+    send-email: wariqueando.com/restore-password?code-validation=
+  urlTeki: http://localhost:8080/api
+  tokenTeki: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTkyMzYzMTk0fQ.VFUMWpIuyrFLnu97lrxG3alOIocps9dg85fvN43ExrqGxcjmJdKjXwnhV8U6zdDEP9OqhZxw-IlsGtrWXrFwNQ
+server:
+  port: 9002
+spring:
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 10MB
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: spiderman
+    url: jdbc:mysql://localhost:3306/db_entrepatas?useSSL=false
+    username: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: false
+  mail:
+    from: comprobantes@teki.pe
+    host: email-smtp.us-west-2.amazonaws.com
+    username: AKIAXTO54JLW4Z4HZIIT
+    password: BArnSSbesim2lcuhRjNGCG5azhzZPvUtQCUpeuxvJuhL
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          port: 587
+          auth: true
+
+  sendgrid:
+    api-key: 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
+email:
+  templates:
+    templateResetPassword:
+      id: d-f43a2960a9d44a5f97ebdda2241c9518
+      subject: Solicitud de cambio de contraseña
+    templateActiveAccount:
+      id: d-6734d5bcdb3b487cbceccf61a87a1788
+      subject: Activación de cuenta
+  from: jolteon_10@hotmail.com
+  name: EntrePatas
+
+feign:
+  httpclient:
+    connection-timeout: 300000
+
