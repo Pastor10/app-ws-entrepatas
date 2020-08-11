@@ -1,5 +1,6 @@
 package app.ws.entrepatas.dto;
 
+import app.ws.entrepatas.enums.CondicionAnimal;
 import app.ws.entrepatas.enums.EstadoPublicacion;
 import app.ws.entrepatas.model.CondicionEntity;
 import app.ws.entrepatas.model.PersonaEntity;
@@ -65,6 +66,13 @@ public class PublicacionDto {
         if (model == null) return Collections.emptyList();
         return model.stream()
                 .filter(it-> it.getEstadoPublicacion()==EstadoPublicacion.APROBADO)
+                .map(PublicacionDto::transformToDto).collect(Collectors.toList());
+    }
+
+    public static List<PublicacionDto> transformToDtoCondicionAdopcion(List<PublicacionEntity> model) {
+        if (model == null) return Collections.emptyList();
+        return model.stream()
+                .filter(it-> it.getCondicion().getNombre().equals(CondicionAnimal.ADOPCION) && it.getEstadoPublicacion().equals(EstadoPublicacion.APROBADO))
                 .map(PublicacionDto::transformToDto).collect(Collectors.toList());
     }
 }

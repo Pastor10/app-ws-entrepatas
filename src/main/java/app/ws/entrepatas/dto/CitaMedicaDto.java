@@ -36,6 +36,8 @@ public class CitaMedicaDto {
 
     public String numero;
 
+    public Boolean eliminado;
+
     public static CitaMedicaDto transformToDto(CitaMedicaEntity model) {
         if (model == null) return null;
 
@@ -46,13 +48,14 @@ public class CitaMedicaDto {
                 .diagnostico(model.getDiagnostico())
                 .estadoClinico(model.getEstadoClinico())
                 .numero(model.getNumero())
+                .eliminado(model.getEliminado())
                 .listaTratamiento(TratamientoMedicoDto.transformToDto(model.getListaTratamiento()))
                 .build();
     }
 
     public static List<CitaMedicaDto> transformToDto(List<CitaMedicaEntity> model) {
         if (model == null) return Collections.emptyList();
-        return model.stream()
+        return model.stream().filter(item-> !item.getEliminado())
                 .map(CitaMedicaDto::transformToDto).collect(Collectors.toList());
     }
 }

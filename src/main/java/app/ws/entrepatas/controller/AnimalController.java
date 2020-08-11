@@ -42,23 +42,4 @@ public class AnimalController {
         return AnimalDto.transformToDto(animalService.findById(id).get());
     }
 
-    @GetMapping("/upload/img/{namePhoto:.+}")
-    public ResponseEntity<Resource> showPhoto(@PathVariable String namePhoto) {
-
-        Resource resource = null;
-        try {
-            String folder = Constantes.FILES_PUBLICACION;
-            String url = String.format("%s/%s", this.baseUrl, folder);
-            resource = new UrlResource(String.format("%s/%s", url, namePhoto));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error with the directory of the file: ", e);
-        }
-
-
-        HttpHeaders header = new HttpHeaders();
-        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-
-        return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
-    }
 }

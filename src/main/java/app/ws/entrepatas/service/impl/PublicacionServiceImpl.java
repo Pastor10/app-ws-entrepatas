@@ -34,6 +34,7 @@ public class PublicacionServiceImpl implements PublicacionService {
 
         model.getAnimal().setFechaCreacion(LocalDateTime.now());
         model.getAnimal().setDisponible(Boolean.FALSE);
+        model.getAnimal().setNombre(model.getAnimal().getNombre().toUpperCase());
         animalRepository.save(model.getAnimal());
 
         //animalRepository.save(animal);

@@ -23,9 +23,6 @@ public class TipoEventoEntity {
     @Column(name = "nombre")
     public String nombre;
 
-    @Column(name = "imagen")
-    public String imagen;
-
     @Column(name = "estado")
     public Boolean estado;
 

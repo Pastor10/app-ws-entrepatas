@@ -39,6 +39,13 @@ public class PostulanteServiceImpl implements PostulanteService {
             model.getPersona().setFechaCreacion(LocalDateTime.now());
             personaRepository.save(model.getPersona());
         }else{
+
+            persona.setUbigeo(model.getPersona().getUbigeo());
+            persona.setDireccion(model.getPersona().getDireccion());
+            persona.setCelular(model.getPersona().getCelular());
+            persona.setFechaModificacion(LocalDateTime.now());
+            persona.setIsCompleted(Boolean.TRUE);
+            personaRepository.save(persona);
             model.setPersona(persona);
             List<PostulanteEntity> listaPostulaciones = postulanteRepository.findAllByPersonaId(persona.getId());
             listaPostulaciones.forEach(item ->{

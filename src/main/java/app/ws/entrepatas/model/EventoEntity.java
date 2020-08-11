@@ -39,6 +39,9 @@ public class EventoEntity {
     @Column(name = "direccion")
     public String direccion;
 
+    @Column(name = "banner")
+    public String banner;
+
     @OneToOne
     @JoinColumn(name = "id_ubigeo")
     public UbigeoEntity ubigeo;

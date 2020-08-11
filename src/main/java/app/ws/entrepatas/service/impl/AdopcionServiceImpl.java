@@ -3,12 +3,15 @@ package app.ws.entrepatas.service.impl;
 import app.ws.entrepatas.dto.PersonaDto;
 import app.ws.entrepatas.enums.ErrorCode;
 import app.ws.entrepatas.enums.EstadoAdopcion;
+import app.ws.entrepatas.enums.EstadoPublicacion;
 import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.AdopcionEntity;
 import app.ws.entrepatas.model.PersonaEntity;
+import app.ws.entrepatas.model.PublicacionEntity;
 import app.ws.entrepatas.model.UsuarioEntity;
 import app.ws.entrepatas.repository.AdopcionRepository;
 import app.ws.entrepatas.repository.PersonaRepository;
+import app.ws.entrepatas.repository.PublicacionRepository;
 import app.ws.entrepatas.repository.UsuarioRepository;
 import app.ws.entrepatas.service.AdopcionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,9 @@ public class AdopcionServiceImpl implements AdopcionService {
 
     @Autowired
     PersonaRepository personaRepository;
+
+    @Autowired
+    PublicacionRepository publicacionRepository;
 
     @Override
     public AdopcionEntity create(AdopcionEntity model) {
@@ -55,9 +61,16 @@ public class AdopcionServiceImpl implements AdopcionService {
             }
         }
 
+        PublicacionEntity publicacion =publicacionRepository.findByAnimal_Id(model.getAnimal().getId());
+        publicacion.setFechaModificacion(LocalDateTime.now());
+        publicacion.setEstadoPublicacion(EstadoPublicacion.FINALIZADO);
+        //publicacion.setUsuarioModifica();
+        publicacionRepository.save(publicacion);
+
         model.setFechaCreacion(LocalDateTime.now());
         model.setEstadoAdopcion(EstadoAdopcion.RESERVADO);
         model.setEliminado(Boolean.FALSE);
+       // model.getAnimal().
         return adopcionRepository.save(model);
     }
 
@@ -70,6 +83,7 @@ public class AdopcionServiceImpl implements AdopcionService {
     public AdopcionEntity update(AdopcionEntity model) {
         AdopcionEntity modelExist = adopcionRepository.findById(model.getId()).orElseThrow(()->new ServiceException(ErrorCode.V002));
         modelExist.setFechaModificacion(LocalDateTime.now());
+        modelExist.setEstadoAdopcion(model.getEstadoAdopcion());
         return adopcionRepository.save(modelExist);
     }
 

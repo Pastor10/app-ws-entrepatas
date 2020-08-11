@@ -1,6 +1,7 @@
 package app.ws.entrepatas.controller;
 
 import app.ws.entrepatas.dto.AdopcionDto;
+import app.ws.entrepatas.dto.PublicacionDto;
 import app.ws.entrepatas.model.AdopcionEntity;
 import app.ws.entrepatas.service.AdopcionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class AdopcionController {
     public List<AdopcionDto> findAllDevoluciones() {
         return AdopcionDto.transformToDto(adopcionService.findAllDevoluciones());
     }
+
+
 
     @PutMapping("/update")
     public AdopcionDto update(@RequestBody AdopcionEntity adopcion) {

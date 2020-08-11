@@ -8,6 +8,7 @@ import app.ws.entrepatas.model.PublicacionEntity;
 import app.ws.entrepatas.repository.CitaMedicaRepository;
 import app.ws.entrepatas.repository.PublicacionRepository;
 import app.ws.entrepatas.repository.TratamientoMedicoRepository;
+import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.CitaMedicaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +86,10 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
 
         }
         return numero;
+    }
+
+    @Override
+    public void delete(Long id, UserPrincipal user) {
+        citaMedicaRepository.delete(id, user.getId(), LocalDateTime.now());
     }
 }

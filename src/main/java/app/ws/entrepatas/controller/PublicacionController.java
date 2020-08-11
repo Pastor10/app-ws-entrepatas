@@ -69,6 +69,11 @@ public class PublicacionController {
         return PublicacionDto.transformToDtoAprobados(publicacionService.findAll());
     }
 
+    @GetMapping("/publicacion-adopcion")
+    public List<PublicacionDto> findAllCondicionAdopcion(@RequestHeader(value="Authorization") String authorization) {
+        return PublicacionDto.transformToDtoCondicionAdopcion(publicacionService.findAll());
+    }
+
     @GetMapping("/findAllById/{id}")
     public List<PublicacionDto> findAllById(@RequestHeader(value="Authorization") String authorization,@PathVariable Long id) {
         return PublicacionDto.transformToDto(publicacionService.findAllById(id));

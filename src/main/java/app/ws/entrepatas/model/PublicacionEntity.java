@@ -4,6 +4,7 @@ import app.ws.entrepatas.enums.EstadoPublicacion;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,10 +41,6 @@ public class PublicacionEntity {
     @JoinColumn(name = "id_usuario_evalua")
     public UsuarioEntity usuarioEvalua;
 
-//    @ManyToOne
-//    @JoinColumn(name = "estado_publicacion")
-//    public EstadoPublicacionEntity estadoPublicacion;
-
     @Column(name = "estado_publicacion")
     @Enumerated(EnumType.STRING)
     public EstadoPublicacion estadoPublicacion;
@@ -51,7 +48,6 @@ public class PublicacionEntity {
     @ManyToOne
     @JoinColumn(name = "id_condicion")
     public CondicionEntity condicion;
-
 
     @Transient
     public String archivo;
@@ -67,6 +63,12 @@ public class PublicacionEntity {
 
     @Column(name = "fecha_creacion")
     public LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_entrega")
+    public LocalDate fechaEntrega;
+
+    @Column(name = "fecha_devolucion")
+    public LocalDate fechaDevolucion;
 
     @Column( name = "usuario_modifica")
     private Long usuarioModifica;

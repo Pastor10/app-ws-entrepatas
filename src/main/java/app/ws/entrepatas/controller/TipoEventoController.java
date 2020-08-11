@@ -1,5 +1,6 @@
 package app.ws.entrepatas.controller;
 
+import app.ws.entrepatas.exception.NoExistEntityException;
 import app.ws.entrepatas.model.EventoEntity;
 import app.ws.entrepatas.model.TipoEventoEntity;
 import app.ws.entrepatas.model.UsuarioEntity;
@@ -49,45 +50,7 @@ public class TipoEventoController {
 
 
     @PostMapping("/create")
-    public TipoEventoEntity create(@RequestHeader(value="Authorization") String authorization,@RequestParam("id") String id,@RequestParam("nombre") String nombre, @RequestParam("file") MultipartFile foto) {
-        TipoEventoEntity tipoEvento = new TipoEventoEntity();
-        Long idEvento = null;
-        if (!id.equalsIgnoreCase("0")){
-            idEvento = Long.parseLong(id);
-        }
-
-        if (!foto.isEmpty()){
-            String fileName = foto.getOriginalFilename();
-            String fileNameKey = String.format("%s-%s", UUID.randomUUID(), fileName);
-            String folder = Constantes.FILES_TIPO_EVENTO;
-            String bucket = String.format("%s/%s", this.bucketName, folder);
-
-            try {
-                tipoEvento.setId(idEvento);
-                tipoEvento.setNombre(nombre);
-                tipoEvento.setEstado(Boolean.TRUE);
-                tipoEvento.setImagen(fileNameKey);
-
-                //creating the file in the server (temporarily)
-
-                File file = new File(fileName);
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write(foto.getBytes());
-                fos.close();
-
-                PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, fileNameKey, file);
-                putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead);
-
-                this.s3client.putObject(putObjectRequest);
-                //removing the file created in the server
-                file.delete();
-
-
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
+    public TipoEventoEntity create(@RequestHeader(value="Authorization") String authorization, @RequestBody TipoEventoEntity tipoEvento) {
         return tipoEventoService.create(tipoEvento);
 
     }
@@ -97,23 +60,15 @@ public class TipoEventoController {
         return tipoEventoService.findAll();
     }
 
-    @GetMapping("/upload/img/{namePhoto:.+}")
-    public ResponseEntity<Resource> showPhoto(@PathVariable String namePhoto) {
-        Resource resource = null;
+    @DeleteMapping("/delete/{id}")
+    public void delete(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long id) {
         try {
-            String folder = Constantes.FILES_TIPO_EVENTO;
-            String url = String.format("%s/%s", this.baseUrl, folder);
-            resource = new UrlResource(String.format("%s/%s", url, namePhoto));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error with the directory of the file: ", e);
+            tipoEventoService.delete(id);
+        } catch (NoExistEntityException ex) {
+            ex.printStackTrace();
         }
-
-
-        HttpHeaders header = new HttpHeaders();
-        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-
-        return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
     }
+
+
 
 }
