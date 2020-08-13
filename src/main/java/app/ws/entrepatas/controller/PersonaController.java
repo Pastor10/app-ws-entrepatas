@@ -7,6 +7,7 @@ import app.ws.entrepatas.service.PersonaService;
 import app.ws.entrepatas.util.Constantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/persona")
+@CrossOrigin("*")
 public class PersonaController {
 
     @Autowired

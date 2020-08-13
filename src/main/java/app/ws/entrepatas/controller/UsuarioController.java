@@ -55,6 +55,11 @@ public class UsuarioController {
         return UsuarioDto.transformToDto(usuarioService.findAll());
     }
 
+    @GetMapping("/integrantes")
+    public List<UsuarioDto> findAllIntegrantes() {
+        return UsuarioDto.transformToDtoIntegrantes(usuarioService.findAll());
+    }
+
     @GetMapping("/findById/{id}")
     public UsuarioEntity findById(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long id) {
         return usuarioService.findById(id);

@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
@@ -31,6 +32,9 @@ public class PostulanteEntity {
     @OneToOne
     @JoinColumn(name = "id_persona")
     public PersonaEntity persona;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "postulante", cascade = CascadeType.ALL)
+    private List<CuestionarioEntity> listaCuestionario;
 
 
     @Column(name = "eliminado")

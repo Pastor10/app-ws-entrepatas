@@ -48,4 +48,10 @@ public class UsuarioDto {
         return model.stream().filter(user -> !user.getEliminado())
                 .map(UsuarioDto::transformToDto).collect(Collectors.toList());
     }
+
+    public static List<UsuarioDto> transformToDtoIntegrantes(List<UsuarioEntity> model) {
+        if (model == null) return Collections.emptyList();
+        return model.stream().filter(user -> !user.getEliminado() && !user.getPerfil().getNombre().equals("VISITANTE"))
+                .map(UsuarioDto::transformToDto).collect(Collectors.toList());
+    }
 }
