@@ -16,6 +16,8 @@ import app.ws.entrepatas.service.EmailService;
 import app.ws.entrepatas.service.UsuarioService;
 import app.ws.entrepatas.util.Constantes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -86,6 +88,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             model.setPersona(personaExist);
         }
         model.getPersona().setFechaCreacion(LocalDateTime.now());
+        model.getPersona().setEliminado(Boolean.FALSE);
         personaRepository.save(model.getPersona());
         //emailService.sendEmailActiveAccount(model);
         return repository.save(model);
@@ -125,9 +128,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<UsuarioEntity> findAll() {
-    	return repository.findAll();
+    public Page<UsuarioEntity> findAll(Pageable pageable) {
+    	return repository.findAllUsers(pageable);
     }
 
-
+    @Override
+    public List<UsuarioEntity> findAllIntegrantes() {
+        return repository.findAll();
+    }
 }

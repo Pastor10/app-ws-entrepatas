@@ -15,6 +15,8 @@ import app.ws.entrepatas.repository.PublicacionRepository;
 import app.ws.entrepatas.repository.UsuarioRepository;
 import app.ws.entrepatas.service.AdopcionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -91,20 +93,20 @@ public class AdopcionServiceImpl implements AdopcionService {
     }
 
     @Override
-    public List<AdopcionEntity> findAllDevoluciones() {
+    public Page<AdopcionEntity> findAllDevoluciones(Pageable pageable) {
         List<EstadoAdopcion> estados = Arrays.asList(
                 EstadoAdopcion.DEVUELTO
         );
-        return adopcionRepository.findAllAdopciones(estados);
+        return adopcionRepository.findAllAdopciones(estados, pageable);
     }
 
     @Override
-    public List<AdopcionEntity> findAllAdopciones() {
+    public Page<AdopcionEntity> findAllAdopciones(Pageable pageable) {
         List<EstadoAdopcion> estados = Arrays.asList(
                 EstadoAdopcion.RESERVADO,
                 EstadoAdopcion.ENTREGADO
         );
-        return adopcionRepository.findAllAdopciones(estados);
+        return adopcionRepository.findAllAdopciones(estados, pageable);
 
     }
 

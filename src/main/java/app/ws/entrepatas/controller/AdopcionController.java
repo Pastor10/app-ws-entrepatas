@@ -5,6 +5,10 @@ import app.ws.entrepatas.dto.PublicacionDto;
 import app.ws.entrepatas.model.AdopcionEntity;
 import app.ws.entrepatas.service.AdopcionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +26,17 @@ public class AdopcionController {
     }
 
     @GetMapping("/findAll")
-    public List<AdopcionDto> findAll() {
-        return AdopcionDto.transformToDto(adopcionService.findAllAdopciones());
+    public ResponseEntity<Page<AdopcionDto>> findAll(@RequestParam(name = "page") Integer page,
+                                                        @RequestParam(name = "perPage") Integer perPage) {
+        Pageable pageable = PageRequest.of(page, perPage);
+        return ResponseEntity.ok().body(adopcionService.findAllAdopciones(pageable).map(AdopcionDto::transformToDto));
     }
 
     @GetMapping("/findAllDevoluciones")
-    public List<AdopcionDto> findAllDevoluciones() {
-        return AdopcionDto.transformToDto(adopcionService.findAllDevoluciones());
+    public ResponseEntity<Page<AdopcionDto>> findAllDevoluciones(@RequestParam(name = "page") Integer page,
+                                                 @RequestParam(name = "perPage") Integer perPage) {
+        Pageable pageable = PageRequest.of(page, perPage);
+        return ResponseEntity.ok().body(adopcionService.findAllDevoluciones(pageable).map(AdopcionDto::transformToDto));
     }
 
 

@@ -24,7 +24,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: spiderman
-    url: jdbc:mysql://localhost:3306/db_entrepatas?useSSL=false&serverTimezone=America/Lima
+    url: jdbc:mysql://entrepatas.chvnoan2a4mv.us-east-2.rds.amazonaws.com/db_entrepatas?useSSL=false&serverTimezone=America/Lima
     username: root
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect

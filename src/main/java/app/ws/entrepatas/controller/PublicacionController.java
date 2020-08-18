@@ -1,8 +1,12 @@
 package app.ws.entrepatas.controller;
 
 import app.ws.entrepatas.dto.PublicacionDto;
+import app.ws.entrepatas.dto.UsuarioDto;
+import app.ws.entrepatas.enums.CondicionAnimal;
 import app.ws.entrepatas.enums.ErrorCode;
+import app.ws.entrepatas.enums.EstadoPublicacion;
 import app.ws.entrepatas.exception.ServiceException;
+import app.ws.entrepatas.model.CondicionEntity;
 import app.ws.entrepatas.model.PublicacionEntity;
 import app.ws.entrepatas.security.CurrentUser;
 import app.ws.entrepatas.security.UserPrincipal;
@@ -16,6 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +34,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -60,22 +68,35 @@ public class PublicacionController {
     }
 
     @GetMapping("/findAll")
-    public List<PublicacionDto> findAll(@RequestHeader(value="Authorization") String authorization) {
-        return PublicacionDto.transformToDto(publicacionService.findAll());
+    public ResponseEntity<Page<PublicacionDto>> findAll(@RequestHeader(value="Authorization") String authorization,
+                                                        @RequestParam(name = "page") Integer page,
+                                                        @RequestParam(name = "perPage") Integer perPage) {
+        Pageable pageable = PageRequest.of(page, perPage);
+        return ResponseEntity.ok().body(publicacionService.findAll(pageable).map(PublicacionDto::transformToDto));
     }
+
+    @GetMapping("/findAll-visitantes")
+    public ResponseEntity<Page<PublicacionDto>> findAllVisitantes(@RequestHeader(value="Authorization") String authorization,
+                                                        @RequestParam(name = "page") Integer page,
+                                                        @RequestParam(name = "perPage") Integer perPage) {
+        Pageable pageable = PageRequest.of(page, perPage);
+        return ResponseEntity.ok().body(publicacionService.findAllVisitantes(pageable).map(PublicacionDto::transformToDto));
+    }
+
 
     @GetMapping("/findAllAprobadas")
     public List<PublicacionDto> findAllAprobadas() {
-        return PublicacionDto.transformToDtoAprobados(publicacionService.findAll());
+        return PublicacionDto.transformToDtoAprobados(publicacionService.findAllPublicaciones());
     }
 
     @GetMapping("/publicacion-adopcion")
     public List<PublicacionDto> findAllCondicionAdopcion(@RequestHeader(value="Authorization") String authorization) {
-        return PublicacionDto.transformToDtoCondicionAdopcion(publicacionService.findAll());
+        return PublicacionDto.transformToDtoCondicionAdopcion(publicacionService.findAllPublicaciones());
     }
 
     @GetMapping("/findAllById/{id}")
-    public List<PublicacionDto> findAllById(@RequestHeader(value="Authorization") String authorization,@PathVariable Long id) {
+    public List<PublicacionDto>findAllById(@RequestHeader(value="Authorization") String authorization,
+                                            @PathVariable(name = "id") Long id) {
         return PublicacionDto.transformToDto(publicacionService.findAllById(id));
     }
 

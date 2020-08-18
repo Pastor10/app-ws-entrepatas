@@ -4,6 +4,8 @@ package app.ws.entrepatas.service;
 import app.ws.entrepatas.exception.NoExistEntityException;
 import app.ws.entrepatas.model.UsuarioEntity;
 import app.ws.entrepatas.security.UserPrincipal;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 import java.util.List;
@@ -15,5 +17,6 @@ public interface UsuarioService {
     UsuarioEntity update(UsuarioEntity model, UserPrincipal user);
     void delete(Long id, UserPrincipal user);
     UsuarioEntity findById(Long id);
-    List<UsuarioEntity> findAll();
+    Page<UsuarioEntity> findAll(Pageable pageable);
+    List<UsuarioEntity> findAllIntegrantes();
 }

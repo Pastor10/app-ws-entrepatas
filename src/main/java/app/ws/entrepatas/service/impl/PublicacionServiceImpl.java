@@ -11,6 +11,8 @@ import app.ws.entrepatas.repository.PublicacionRepository;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -47,8 +49,15 @@ public class PublicacionServiceImpl implements PublicacionService {
     }
 
     @Override
-    public List<PublicacionEntity> findAll() {
-        return publicacionRepository.findAll();
+    public Page<PublicacionEntity> findAll(Pageable page) {
+        String perfil = "VISITANTE";
+        return publicacionRepository.findAllPublicaciones(perfil,page);
+    }
+
+    @Override
+    public Page<PublicacionEntity> findAllVisitantes(Pageable page) {
+        String perfil = "VISITANTE";
+        return publicacionRepository.findAllPublicacionesVisitantes(perfil,page);
     }
 
     @Override
@@ -88,4 +97,11 @@ public class PublicacionServiceImpl implements PublicacionService {
     public PublicacionEntity findByIdAnimal(Long id) {
         return publicacionRepository.findByAnimal_Id(id);
     }
+
+    @Override
+    public List<PublicacionEntity> findAllPublicaciones() {
+        return publicacionRepository.findAll();
+    }
+
+
 }
