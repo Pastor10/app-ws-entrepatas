@@ -31,17 +31,19 @@ public class AdopcionEntity {
     @JoinColumn(name = "id_persona")
     public PersonaEntity persona;
 
-//    @ManyToOne
-//    @JoinColumn(name = "id_estado_adopcion")
-//    public EstadoAdopcionEntity estadoAdopcion;
-
-    @Column(name = "fecha_adopcion")
-    public LocalDate fechaAdopcion;
+    @Column(name = "fecha_entrega")
+    public LocalDate fechaEntrega;
 
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado_adopcion")
     public EstadoAdopcion estadoAdopcion;
+
+    @Column(name = "fecha_devolucion")
+    public LocalDate fechaDevolucion;
+
+    @Column(name = "motivo_devolucion", length = 400)
+    public String motivoDevolucion;
 
     @Transient
     public Boolean createUser;

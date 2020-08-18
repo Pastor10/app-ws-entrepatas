@@ -1,5 +1,7 @@
 package app.ws.entrepatas.service.impl;
 
+import app.ws.entrepatas.enums.ErrorCode;
+import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.CuestionarioEntity;
 import app.ws.entrepatas.model.OpcionEntity;
 import app.ws.entrepatas.model.PostulanteEntity;
@@ -39,8 +41,8 @@ public class CuestionarioServiceImpl implements CuestionarioService {
             item.setFechaCreacion(LocalDateTime.now());
             item.setEliminado(Boolean.FALSE);
             idPostulante = item.getPostulante().getId();
-            Optional<OpcionEntity>  opcion = opcionRepository.findById(item.getOpcion().getId());
-            suma = suma + opcion.get().getPuntaje();
+            OpcionEntity  opcion = opcionRepository.findById(item.getOpcion().getId()).orElseThrow(()-> new ServiceException(ErrorCode.V002));
+            suma = suma + opcion.getPuntaje();
         }
 
         promedio = suma/4;

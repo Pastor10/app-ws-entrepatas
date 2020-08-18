@@ -41,6 +41,8 @@ public class PublicacionDto {
 
     public LocalDateTime fechaCreacion;
 
+    public String observacion;
+
     public static PublicacionDto transformToDto(PublicacionEntity model) {
         if (model == null) return null;
 
@@ -51,6 +53,7 @@ public class PublicacionDto {
                 .usuarioPublica(UsuarioDto.transformToDto(model.getUsuarioPublica()))
                 .usuarioEvalua(UsuarioDto.transformToDto(model.getUsuarioEvalua()))
                 .estadoPublicacion(model.getEstadoPublicacion())
+                .observacion(model.getObservacion())
                 .condicion(CondicionEntity.builder().id(model.getCondicion().getId()).nombre(model.getCondicion().getNombre()).build())
                 .fechaCreacion(model.getFechaCreacion())
                 .build();

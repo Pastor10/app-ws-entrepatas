@@ -70,6 +70,7 @@ public class PublicacionServiceImpl implements PublicacionService {
         modelExist.getAnimal().setNombre(model.getAnimal().getNombre());
         modelExist.getAnimal().setFoto(model.getAnimal().getFoto());
         modelExist.setDescripcion(model.getDescripcion());
+        modelExist.setObservacion(model.getObservacion());
         modelExist.setUsuarioModifica(user.getId());
         modelExist.setFechaModificacion(LocalDateTime.now());
 

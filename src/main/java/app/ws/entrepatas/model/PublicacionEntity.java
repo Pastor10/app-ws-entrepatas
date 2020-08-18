@@ -23,11 +23,12 @@ public class PublicacionEntity {
     @Column(name = "id", nullable = false)
     public  Long id;
 
-    @Column(name = "descripcion")
+    @Column(name = "descripcion", length = 400)
     public String descripcion;
 
-//    @Column(name = "estado")
-//    public Boolean estado;
+
+    @Column(name = "observacion", length = 400)
+    public String observacion;
 
     @OneToOne
     @JoinColumn(name = "id_animal")

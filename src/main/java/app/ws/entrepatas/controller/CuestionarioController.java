@@ -1,7 +1,5 @@
 package app.ws.entrepatas.controller;
 
-import app.ws.entrepatas.dto.CitaMedicaDto;
-import app.ws.entrepatas.model.CitaMedicaEntity;
 import app.ws.entrepatas.model.CuestionarioEntity;
 import app.ws.entrepatas.service.CuestionarioService;
 import org.springframework.beans.factory.annotation.Autowired;

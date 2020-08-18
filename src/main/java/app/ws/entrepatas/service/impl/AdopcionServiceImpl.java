@@ -84,6 +84,9 @@ public class AdopcionServiceImpl implements AdopcionService {
         AdopcionEntity modelExist = adopcionRepository.findById(model.getId()).orElseThrow(()->new ServiceException(ErrorCode.V002));
         modelExist.setFechaModificacion(LocalDateTime.now());
         modelExist.setEstadoAdopcion(model.getEstadoAdopcion());
+        modelExist.setFechaEntrega(model.getFechaEntrega());
+        modelExist.setFechaDevolucion(model.getFechaDevolucion());
+        modelExist.setMotivoDevolucion(model.getMotivoDevolucion());
         return adopcionRepository.save(modelExist);
     }
 

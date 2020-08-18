@@ -1,5 +1,6 @@
 package app.ws.entrepatas.dto;
 
+import app.ws.entrepatas.model.CuestionarioEntity;
 import app.ws.entrepatas.model.PersonaEntity;
 import app.ws.entrepatas.model.PostulanteEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -29,6 +30,8 @@ public class PostulanteDto {
 
     private Boolean eliminado;
 
+    private List<CuestionarioDto> listaCuestionario;
+
     public static PostulanteDto transformToDto(PostulanteEntity model) {
         if (model == null) return null;
 
@@ -38,6 +41,7 @@ public class PostulanteDto {
                 .puntuacion(model.getPuntuacion())
                 .persona(PersonaDto.transformToDto(model.getPersona()))
                 .eliminado(model.getEliminado())
+                .listaCuestionario(CuestionarioDto.transformToDto(model.getListaCuestionario()))
                 .build();
     }
 

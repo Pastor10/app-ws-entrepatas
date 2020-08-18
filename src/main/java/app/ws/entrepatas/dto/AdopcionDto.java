@@ -31,7 +31,11 @@ public class AdopcionDto {
 
     public PersonaDto persona;
 
-    public LocalDate fechaAdopcion;
+    public LocalDate fechaEntrega;
+
+    public LocalDate fechaDevolucion;
+
+    public String motivoDevolucion;
 
     public EstadoAdopcion estadoAdopcion;
 
@@ -44,7 +48,9 @@ public class AdopcionDto {
                 .id(model.getId())
                 .animal(AnimalDto.transformToDto(model.getAnimal()))
                 .persona(PersonaDto.transformToDto(model.getPersona()))
-                .fechaAdopcion(model.getFechaAdopcion())
+                .fechaEntrega(model.getFechaEntrega())
+                .fechaDevolucion(model.getFechaDevolucion())
+                .motivoDevolucion(model.getMotivoDevolucion())
                 .estadoAdopcion(model.getEstadoAdopcion())
                 .fechaCreacion(model.getFechaCreacion())
                 .build();

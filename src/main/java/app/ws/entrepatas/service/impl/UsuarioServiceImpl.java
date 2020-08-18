@@ -87,7 +87,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
         model.getPersona().setFechaCreacion(LocalDateTime.now());
         personaRepository.save(model.getPersona());
-        emailService.sendEmailActiveAccount(model);
+        //emailService.sendEmailActiveAccount(model);
         return repository.save(model);
     }
 
@@ -103,6 +103,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         modelExist.getPersona().setCorreo(model.getPersona().getCorreo());
         modelExist.getPersona().setNombreCompleto(PersonaDto.getNombresCompletos(model.getPersona()));
         modelExist.getPersona().setFechaModificacion(LocalDateTime.now());
+        modelExist.setPassword(new BCryptPasswordEncoder().encode(model.getPersona().getNumeroDocumento()));
         modelExist.setPerfil(model.getPerfil());
         modelExist.setEstado(model.getEstado());
         modelExist.setFechaModificacion(LocalDateTime.now());
