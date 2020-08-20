@@ -11,7 +11,7 @@ app:
       access_key_id: AKIA4JEATZWMMFXWQIMX
       secret_access_key: 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
   url:
-    send-email: wariqueando.com/restore-password?code-validation=
+    send-email: entrepatasch.com/#/active-acount?code-validation=
   urlTeki: http://localhost:8080/api
   tokenTeki: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTkyMzYzMTk0fQ.VFUMWpIuyrFLnu97lrxG3alOIocps9dg85fvN43ExrqGxcjmJdKjXwnhV8U6zdDEP9OqhZxw-IlsGtrWXrFwNQ
 server:
@@ -35,10 +35,10 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: false
   mail:
-    from: comprobantes@teki.pe
-    host: email-smtp.us-west-2.amazonaws.com
-    username: AKIAXTO54JLW4Z4HZIIT
-    password: BArnSSbesim2lcuhRjNGCG5azhzZPvUtQCUpeuxvJuhL
+    from: luisyum@gmail.com
+    host: email-smtp.us-east-2.amazonaws.com
+    username: AKIA4JEATZWMMB43BLFT
+    password: BJzfyA110pOggr4R0uZY+siVkYg2l5LdN9p/L41ex/ZY
     properties:
       mail:
         transport:
@@ -52,12 +52,12 @@ spring:
 email:
   templates:
     templateResetPassword:
-      id: d-f43a2960a9d44a5f97ebdda2241c9518
       subject: Solicitud de cambio de contraseña
     templateActiveAccount:
-      id: d-6734d5bcdb3b487cbceccf61a87a1788
       subject: Activación de cuenta
-  from: jolteon_10@hotmail.com
+    templatePostulante:
+      subject: Solicitud de adopción
+  from: luisyum@gmail.com
   name: EntrePatas
 
 feign:

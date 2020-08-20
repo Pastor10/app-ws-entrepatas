@@ -34,7 +34,7 @@ public class UsuarioEntity {
     @Column(name = "uuid")
     public String uuid;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_perfil", nullable = false)
     private PerfilEntity perfil;
 

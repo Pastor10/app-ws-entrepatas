@@ -1,8 +1,5 @@
 package app.ws.entrepatas.controller;
 
-
-import app.ws.entrepatas.exception.NoExistEntityException;
-import app.ws.entrepatas.model.UsuarioEntity;
 import app.ws.entrepatas.model.VeterinarioEntity;
 import app.ws.entrepatas.security.CurrentUser;
 import app.ws.entrepatas.security.UserPrincipal;
@@ -15,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/veterinario")
+@CrossOrigin("*")
 public class VeterinarioController {
 
     @Autowired

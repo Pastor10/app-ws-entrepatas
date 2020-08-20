@@ -1,15 +1,19 @@
 package app.ws.entrepatas.controller;
 
 import app.ws.entrepatas.dto.UsuarioDto;
+import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.UsuarioEntity;
 import app.ws.entrepatas.security.CurrentUser;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.UsuarioService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +31,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/usuario")
+@CrossOrigin("*")
 //@PreAuthorize("hasRole('USER')")
 public class UsuarioController {
 
@@ -71,6 +76,13 @@ public class UsuarioController {
         return usuarioService.findById(id);
     }
 
+
+    @PutMapping("/validate-uuid/{uuid}")
+    @ApiOperation(value = "Valida el codigo uuid que se le envio al correo")
+    public ResponseEntity<Boolean> validateUuid(@PathVariable("uuid")  String uuid) throws ServiceException {
+        return new ResponseEntity<>(usuarioService.validateUuid(uuid), HttpStatus.OK);
+
+    }
 
 
 }

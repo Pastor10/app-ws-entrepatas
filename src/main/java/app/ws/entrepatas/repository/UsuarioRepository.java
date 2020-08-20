@@ -19,6 +19,7 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 
     //Optional<UsuarioEntity> findByCorreo(String email);
     Optional<UsuarioEntity> findByUsername(String username);
+    Optional<UsuarioEntity> findByUuid(String uuid);
     UsuarioEntity findByPersonaNumeroDocumento(String documento);
 
     @Query(value = "select u from UsuarioEntity u where u.eliminado = false")

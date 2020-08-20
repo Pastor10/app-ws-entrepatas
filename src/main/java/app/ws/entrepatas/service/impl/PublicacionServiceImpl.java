@@ -50,14 +50,14 @@ public class PublicacionServiceImpl implements PublicacionService {
 
     @Override
     public Page<PublicacionEntity> findAll(Pageable page) {
-        String perfil = "VISITANTE";
-        return publicacionRepository.findAllPublicaciones(perfil,page);
+        Long idPerfil = 2l;
+        return publicacionRepository.findAllPublicaciones(idPerfil,page);
     }
 
     @Override
     public Page<PublicacionEntity> findAllVisitantes(Pageable page) {
-        String perfil = "VISITANTE";
-        return publicacionRepository.findAllPublicacionesVisitantes(perfil,page);
+        Long idPerfil = 2l;
+        return publicacionRepository.findAllPublicacionesVisitantes(idPerfil,page);
     }
 
     @Override

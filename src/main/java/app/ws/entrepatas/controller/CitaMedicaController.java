@@ -2,12 +2,11 @@ package app.ws.entrepatas.controller;
 
 import app.ws.entrepatas.dto.CitaMedicaDto;
 import app.ws.entrepatas.model.CitaMedicaEntity;
-import app.ws.entrepatas.model.EventoEntity;
 import app.ws.entrepatas.security.CurrentUser;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.CitaMedicaService;
-import app.ws.entrepatas.service.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,13 +18,14 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("api/cita-medica")
+@CrossOrigin("*")
 public class CitaMedicaController {
 
     @Autowired
     CitaMedicaService citaMedicaService;
 
     @PostMapping("/create")
-    public CitaMedicaDto create(@RequestBody CitaMedicaEntity cita) {
+    public CitaMedicaDto create(@RequestHeader(value="Authorization") String authorization,@RequestBody CitaMedicaEntity cita) {
         return CitaMedicaDto.transformToDto(citaMedicaService.create(cita)) ;
     }
 

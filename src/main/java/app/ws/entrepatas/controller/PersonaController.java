@@ -38,7 +38,7 @@ public class PersonaController {
     }
 
     @PutMapping("/update")
-    public PersonaDto update(@RequestBody PersonaEntity persona) {
+    public PersonaDto update(@RequestHeader(value="Authorization") String authorization,@RequestBody PersonaEntity persona) {
         return PersonaDto.transformToDto(personaService.update(persona));
     }
 

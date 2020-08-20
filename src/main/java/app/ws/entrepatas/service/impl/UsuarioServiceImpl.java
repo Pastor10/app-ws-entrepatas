@@ -1,9 +1,7 @@
 package app.ws.entrepatas.service.impl;
 
 import app.ws.entrepatas.dto.PersonaDto;
-import app.ws.entrepatas.dto.SendEmailDto;
 import app.ws.entrepatas.enums.ErrorCode;
-import app.ws.entrepatas.exception.NoExistEntityException;
 import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.PerfilEntity;
 import app.ws.entrepatas.model.PersonaEntity;
@@ -21,10 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -46,6 +42,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioEntity create(UsuarioEntity model, UserPrincipal user) {
 
         UsuarioEntity modelExist = repository.findByPersonaNumeroDocumento(model.getPersona().getNumeroDocumento());
+
         if (modelExist!=null){
             throw new ServiceException(ErrorCode.V007);
         }
@@ -62,7 +59,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         model.setEliminado(Boolean.FALSE);
         model.setEstado(Boolean.TRUE);
         model.setPassword(new BCryptPasswordEncoder().encode(model.getPersona().getNumeroDocumento()));
-        model.setUsername(model.getPersona().getCorreo());
+        model.setUsername(model.getPersona().getNumeroDocumento());
         model.setUsuarioCrea(user.getId());
         model.setFechaCreacion(LocalDateTime.now());
         return repository.save(model);
@@ -76,12 +73,13 @@ public class UsuarioServiceImpl implements UsuarioService {
         model.setEliminado(Boolean.FALSE);
         model.setFechaCreacion(LocalDateTime.now());
         model.setPassword(new BCryptPasswordEncoder().encode(model.getPassword()));
+        model.setUsername(model.getPersona().getNumeroDocumento());
         model.setUuid(UUID.randomUUID().toString());
 
         UsuarioEntity modelExist = repository.findByPersonaNumeroDocumento(model.getPersona().getNumeroDocumento());
 
         if (modelExist!=null){
-            throw new ServiceException(ErrorCode.V001);
+            throw new ServiceException(ErrorCode.V007);
         }
         PersonaEntity personaExist = personaRepository.findByNumeroDocumento(model.getPersona().getNumeroDocumento());
         if (personaExist!=null){
@@ -90,7 +88,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         model.getPersona().setFechaCreacion(LocalDateTime.now());
         model.getPersona().setEliminado(Boolean.FALSE);
         personaRepository.save(model.getPersona());
-        //emailService.sendEmailActiveAccount(model);
+        emailService.sendEmailActiveAccount(model);
         return repository.save(model);
     }
 
@@ -135,5 +133,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<UsuarioEntity> findAllIntegrantes() {
         return repository.findAll();
+    }
+
+    @Override
+    public Boolean validateUuid(String uuid) throws ServiceException {
+        UsuarioEntity user = repository.findByUuid(uuid).orElseThrow(()->new ServiceException(ErrorCode.V002));
+        user.setEstado(Boolean.TRUE);
+        user.setFechaModificacion(LocalDateTime.now());
+        repository.save(user);
+        return Boolean.TRUE;
     }
 }

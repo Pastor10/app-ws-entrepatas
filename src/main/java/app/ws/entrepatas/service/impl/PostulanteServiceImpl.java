@@ -10,6 +10,7 @@ import app.ws.entrepatas.model.UsuarioEntity;
 import app.ws.entrepatas.repository.PersonaRepository;
 import app.ws.entrepatas.repository.PostulanteRepository;
 import app.ws.entrepatas.security.UserPrincipal;
+import app.ws.entrepatas.service.EmailService;
 import app.ws.entrepatas.service.PostulanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +29,9 @@ public class PostulanteServiceImpl implements PostulanteService {
 
     @Autowired
     PersonaRepository personaRepository;
+
+    @Autowired
+    EmailService emailService;
 
     @Override
     public PostulanteEntity create(PostulanteEntity model) {
@@ -57,6 +61,7 @@ public class PostulanteServiceImpl implements PostulanteService {
         }
         model.setEliminado(Boolean.FALSE);
         model.setFechaCreacion(LocalDateTime.now());
+        emailService.sendEmailPostulante(model);
         return postulanteRepository.save(model);
     }
 

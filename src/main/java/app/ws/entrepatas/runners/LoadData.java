@@ -264,10 +264,10 @@ public class LoadData implements CommandLineRunner {
                     p.setApePaterno("Pastor");
                     p.setApeMaterno("Rivadeneyra");
                     p.setNombreCompleto("Luis Pastor Rivadeneyra");
-                    p.setCelular("999999999");
+                    p.setCelular("952452260");
                     p.setCorreo("luisyum@gmail.com");
                     p.setDireccion("Av. alameda #230");
-                    p.setNumeroDocumento("1223121");
+                    p.setNumeroDocumento("47583574");
                     p.setFechaCreacion(LocalDateTime.now());
                     p.setEliminado(Boolean.FALSE);
                     p.setFechaCreacion(LocalDateTime.now());
@@ -278,7 +278,7 @@ public class LoadData implements CommandLineRunner {
                     u.setPersona(p);
                     u.setUsername("admin");
                     u.setEliminado(Boolean.FALSE);
-                    u.setPassword(new BCryptPasswordEncoder().encode("admin"));
+                    u.setPassword(new BCryptPasswordEncoder().encode("newton"));
                     u.setPerfil(perfilEntity);
                     u.setFechaCreacion(LocalDateTime.now());
                     u.setEstado(Boolean.TRUE);

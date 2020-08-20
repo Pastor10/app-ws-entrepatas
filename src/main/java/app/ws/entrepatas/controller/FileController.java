@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/file")
+@CrossOrigin("*")
 public class FileController {
 
     @Autowired
@@ -36,7 +38,7 @@ public class FileController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<Map<String, String>> uploadFsPublic(@RequestPart(value = "file") MultipartFile file) {
+    public ResponseEntity<Map<String, String>> uploadPublic(@RequestHeader(value="Authorization") String authorization,@RequestPart(value = "file") MultipartFile file) {
         return ResponseEntity.ok().body(amazonS3ClientService.uploadFilePublic(file, Constantes.FILES_PUBLICACION));
 
     }

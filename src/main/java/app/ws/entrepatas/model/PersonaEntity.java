@@ -66,11 +66,6 @@ public class PersonaEntity {
     public UbigeoEntity ubigeo;
 
 
-//    @OneToOne
-//    @JoinColumn(name = "id_ocupacion")
-//    public OcupacionEntity ocupacion;
-
-
     @JoinColumn(name = "ocupacion")
     public String ocupacion;
 

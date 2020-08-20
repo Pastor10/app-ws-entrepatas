@@ -2,6 +2,7 @@ package app.ws.entrepatas.service;
 
 
 import app.ws.entrepatas.exception.NoExistEntityException;
+import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.UsuarioEntity;
 import app.ws.entrepatas.security.UserPrincipal;
 import org.springframework.data.domain.Page;
@@ -19,4 +20,5 @@ public interface UsuarioService {
     UsuarioEntity findById(Long id);
     Page<UsuarioEntity> findAll(Pageable pageable);
     List<UsuarioEntity> findAllIntegrantes();
+    Boolean validateUuid(String uuid) throws ServiceException;
 }

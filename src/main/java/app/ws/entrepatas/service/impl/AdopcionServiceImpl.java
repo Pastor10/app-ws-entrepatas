@@ -14,6 +14,7 @@ import app.ws.entrepatas.repository.PersonaRepository;
 import app.ws.entrepatas.repository.PublicacionRepository;
 import app.ws.entrepatas.repository.UsuarioRepository;
 import app.ws.entrepatas.service.AdopcionService;
+import app.ws.entrepatas.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +40,9 @@ public class AdopcionServiceImpl implements AdopcionService {
 
     @Autowired
     PublicacionRepository publicacionRepository;
+
+    @Autowired
+    EmailService emailService;
 
     @Override
     public AdopcionEntity create(AdopcionEntity model) {
@@ -73,6 +77,7 @@ public class AdopcionServiceImpl implements AdopcionService {
         model.setEstadoAdopcion(EstadoAdopcion.RESERVADO);
         model.setEliminado(Boolean.FALSE);
        // model.getAnimal().
+        emailService.sendEmailAdopcion(model);
         return adopcionRepository.save(model);
     }
 

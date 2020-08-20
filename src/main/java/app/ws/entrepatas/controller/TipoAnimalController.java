@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/tipoAnimal")
+@CrossOrigin("*")
 public class TipoAnimalController {
 
     @Autowired

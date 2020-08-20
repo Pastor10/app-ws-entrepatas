@@ -20,15 +20,15 @@ public interface PublicacionRepository extends JpaRepository<PublicacionEntity, 
     PublicacionEntity findByAnimal_Id(Long id);
 
     @Query(value = "select p from PublicacionEntity p " +
-            " join p.usuarioPublica u " +
-            " join u.perfil pe " +
-            " where p.eliminado = false and not pe.nombre =:perfil")
-    Page<PublicacionEntity> findAllPublicaciones(@Param("perfil") String perfil, Pageable pageable);
+            "  join p.usuarioPublica u " +
+            "  join u.perfil pe " +
+            " where p.eliminado = false and pe.id not in (:idPerfil)")
+    Page<PublicacionEntity> findAllPublicaciones(@Param("idPerfil") Long idPerfil, Pageable pageable);
 
     @Query(value = "select p from PublicacionEntity p " +
             " join p.usuarioPublica u " +
             " join u.perfil pe " +
-            " where p.eliminado = false and  pe.nombre =:perfil")
-    Page<PublicacionEntity> findAllPublicacionesVisitantes(@Param("perfil") String perfil, Pageable pageable);
+            " where p.eliminado = false and  pe.id =:idPerfil")
+    Page<PublicacionEntity> findAllPublicacionesVisitantes(@Param("idPerfil") Long idPerfil, Pageable pageable);
 
 }

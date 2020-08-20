@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/ubigeo")
+@CrossOrigin("*")
 public class UbigeoController {
 
     @Autowired

@@ -12,9 +12,9 @@ import app.ws.entrepatas.repository.UsuarioRepository;
 import app.ws.entrepatas.security.JwtTokenProvider;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.UsuarioService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,38 +29,37 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.slf4j.LoggerFactory;
 
 
 @RestController
 @RequestMapping("/api/auth")
 @Slf4j
+@Api(description = "Recurso para Login y cambio de clave")
 public class AuthController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+
     AuthenticationManager authenticationManager;
-
-    @Autowired
     UsuarioRepository userRepository;
-
-    @Autowired
     RoleRepository roleRepository;
-
-    @Autowired
     PasswordEncoder passwordEncoder;
-
-    @Autowired
     JwtTokenProvider tokenProvider;
-
-    @Autowired
     UsuarioService usuarioService;
+
+    public AuthController(AuthenticationManager authenticationManager, UsuarioRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider, UsuarioService usuarioService) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.tokenProvider = tokenProvider;
+        this.usuarioService = usuarioService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        System.out.println("LOGUEARSE CON: "+ loginRequest.getUsername());
+        System.out.println("LOGUEARSE CON: "+ loginRequest.getUsername() +" -"+ loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),
