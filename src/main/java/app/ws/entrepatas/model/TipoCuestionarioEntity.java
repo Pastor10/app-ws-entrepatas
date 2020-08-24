@@ -1,7 +1,8 @@
 package app.ws.entrepatas.model;
 
+import app.ws.entrepatas.dto.CuestionarioDto;
 import app.ws.entrepatas.dto.DetalleCuestionarioDto;
-import app.ws.entrepatas.dto.OpcionDto;
+import app.ws.entrepatas.dto.TipoCuestionarioDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,42 +15,43 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "opcion")
+@Table(name = "tipo_cuestionario")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OpcionEntity {
+public class TipoCuestionarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    public  Long id;
+    public Long id;
 
     @Column(name = "nombre")
     public String nombre;
 
-    @Column(name = "puntaje")
-    public Integer puntaje;
+    @Column(name = "fecha_creacion")
+    public LocalDateTime fechaCreacion;
 
-    public static OpcionEntity transformToModel(OpcionDto dto) {
+    public static TipoCuestionarioEntity transformToModel(TipoCuestionarioDto dto) {
         if (dto == null) return null;
 
-        return OpcionEntity.builder()
+        return TipoCuestionarioEntity.builder()
                 .id(dto.getId())
                 .nombre(dto.getNombre())
-                .puntaje(dto.getPuntaje())
+                .fechaCreacion(dto.getFechaCreacion())
                 .build();
     }
 
-    public static List<OpcionEntity> transformToModel(List<OpcionDto> model) {
+    public static List<TipoCuestionarioEntity> transformToModel(List<TipoCuestionarioDto> model) {
         if (model == null) return Collections.emptyList();
-        return model.stream().map(OpcionEntity::transformToModel).collect(Collectors.toList());
+        return model.stream().map(TipoCuestionarioEntity::transformToModel).collect(Collectors.toList());
     }
 }

@@ -34,11 +34,11 @@ public class PublicacionEntity {
     @JoinColumn(name = "id_animal")
     public AnimalEntity animal;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_usuario_publica")
     public UsuarioEntity usuarioPublica;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_usuario_evalua")
     public UsuarioEntity usuarioEvalua;
 
@@ -46,7 +46,7 @@ public class PublicacionEntity {
     @Enumerated(EnumType.STRING)
     public EstadoPublicacion estadoPublicacion;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_condicion")
     public CondicionEntity condicion;
 

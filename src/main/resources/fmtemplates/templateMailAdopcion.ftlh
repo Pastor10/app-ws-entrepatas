@@ -124,7 +124,7 @@
                                             <tr>
                                                 <td style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; width: 60px; margin-bottom: 10px; vertical-align: top;" class="server-img" width="60" valign="top"> <img src="https://entrepatas.s3-sa-east-1.amazonaws.com/public/imagenes/util/logo2.png" alt style="width: 100%; max-width: 60px;"> </td>
                                                 <td style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; line-height: 20px; color: #333; padding-left: 10px;">
-                                                    <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 16px; font-weight: bold; margin-bottom: 8px;">Indormación de la empresa:</div>
+                                                    <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 16px; font-weight: bold; margin-bottom: 8px;">Información de la empresa:</div>
                                                     <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 14px;"> <strong>Nombre:</strong> EntrePatas<br> </div>
                                                     <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 14px;"> <strong>E-mail:</strong> entrepatas@email.com<br /> </div>
                                                     <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 14px;"> <strong>WEB:</strong> <a target='_blank' style='font-weight: bold;color: #2E9CC3;' href="https://entrepatasch.com">https://entrepatasch.com</a><br /> </div>

@@ -3,11 +3,18 @@ package app.ws.entrepatas.service.impl;
 import app.ws.entrepatas.enums.ErrorCode;
 import app.ws.entrepatas.exception.NoExistEntityException;
 import app.ws.entrepatas.exception.ServiceException;
+import app.ws.entrepatas.model.DetalleCuestionarioEntity;
+import app.ws.entrepatas.model.OpcionEntity;
 import app.ws.entrepatas.model.PersonaEntity;
+import app.ws.entrepatas.model.PostulanteColaboradorEntity;
 import app.ws.entrepatas.model.PostulanteEntity;
 import app.ws.entrepatas.model.PublicacionEntity;
+import app.ws.entrepatas.model.TipoCuestionarioEntity;
 import app.ws.entrepatas.model.UsuarioEntity;
+import app.ws.entrepatas.repository.CuestionarioRepository;
+import app.ws.entrepatas.repository.OpcionRepository;
 import app.ws.entrepatas.repository.PersonaRepository;
+import app.ws.entrepatas.repository.PostulanteColaboradorRepository;
 import app.ws.entrepatas.repository.PostulanteRepository;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.EmailService;
@@ -31,7 +38,16 @@ public class PostulanteServiceImpl implements PostulanteService {
     PersonaRepository personaRepository;
 
     @Autowired
+    PostulanteColaboradorRepository postulanteColaboradorRepository;
+
+    @Autowired
     EmailService emailService;
+
+    @Autowired
+    CuestionarioRepository cuestionarioRepository;
+
+    @Autowired
+    OpcionRepository opcionRepository;
 
     @Override
     public PostulanteEntity create(PostulanteEntity model) {
@@ -85,5 +101,29 @@ public class PostulanteServiceImpl implements PostulanteService {
     public PostulanteEntity findById(Long id) {
         return  postulanteRepository.findById(id).orElseThrow(()->new ServiceException(ErrorCode.V002));
 
+    }
+
+    @Override
+    public PostulanteColaboradorEntity createSolicitud(PostulanteColaboradorEntity model) {
+        PersonaEntity persona = personaRepository.findByNumeroDocumento(model.getPersona().getNumeroDocumento());
+        if (persona==null){
+            model.getPersona().setEliminado(Boolean.FALSE);
+            model.getPersona().setFechaCreacion(LocalDateTime.now());
+            personaRepository.save(model.getPersona());
+        }else{
+            model.setPersona(persona);
+            for (DetalleCuestionarioEntity item: model.getCuestionario().getListaDetalle()) {
+                item.setCuestionario(model.getCuestionario());
+               // OpcionEntity opcion = opcionRepository.findById(item.getOpcion().getId()).orElseThrow(()-> new ServiceException(ErrorCode.V002));
+               // item.setOpcion(opcion);
+            }
+            model.getCuestionario().setFechaCreacion(LocalDateTime.now());
+            model.getCuestionario().setEliminado(Boolean.FALSE);
+            model.getCuestionario().setTipoCuestionario(TipoCuestionarioEntity.builder().id(2l).build());
+            cuestionarioRepository.save(model.getCuestionario());
+        }
+        model.setFechaCreacion(LocalDateTime.now());
+        model.setEliminado(Boolean.FALSE);
+        return postulanteColaboradorRepository.save(model);
     }
 }

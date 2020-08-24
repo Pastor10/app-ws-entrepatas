@@ -3,19 +3,21 @@ package app.ws.entrepatas.service.impl;
 import app.ws.entrepatas.enums.ErrorCode;
 import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.CuestionarioEntity;
+import app.ws.entrepatas.model.DetalleCuestionarioEntity;
 import app.ws.entrepatas.model.OpcionEntity;
 import app.ws.entrepatas.model.PostulanteEntity;
+import app.ws.entrepatas.model.TipoCuestionarioEntity;
 import app.ws.entrepatas.repository.CuestionarioRepository;
 import app.ws.entrepatas.repository.OpcionRepository;
 import app.ws.entrepatas.repository.PostulanteRepository;
+import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.CuestionarioService;
 import app.ws.entrepatas.service.PostulanteService;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CuestionarioServiceImpl implements CuestionarioService {
@@ -33,24 +35,58 @@ public class CuestionarioServiceImpl implements CuestionarioService {
     PostulanteRepository postulanteRepository;
 
     @Override
-    public List<CuestionarioEntity> create(List<CuestionarioEntity> lista) {
+    public CuestionarioEntity create(CuestionarioEntity cuestionario, UserPrincipal user) {
         Integer promedio=0;
         Integer suma=0;
-        Long idPostulante=0L;
-        for (CuestionarioEntity item:lista) {
-            item.setFechaCreacion(LocalDateTime.now());
-            item.setEliminado(Boolean.FALSE);
-            idPostulante = item.getPostulante().getId();
+        for (DetalleCuestionarioEntity item: cuestionario.getListaDetalle()) {
+            item.setCuestionario(cuestionario);
             OpcionEntity  opcion = opcionRepository.findById(item.getOpcion().getId()).orElseThrow(()-> new ServiceException(ErrorCode.V002));
             suma = suma + opcion.getPuntaje();
         }
+        promedio = suma/4;
+
+
+        cuestionario.setPromedio(promedio);
+        cuestionario.setFechaCreacion(LocalDateTime.now());
+        cuestionario.setTipoCuestionario(TipoCuestionarioEntity.builder().id(1l).build());
+        cuestionario.setEliminado(Boolean.FALSE);
+        cuestionario.setUsuarioCrea(user.getId());
+        cuestionarioRepository.save(cuestionario);
+
+        PostulanteEntity postulante = postulanteRepository.findById(cuestionario.getIdPostulante()).orElseThrow(()->new ServiceException(ErrorCode.V002));
+        postulante.setPuntuacion(promedio);
+        postulante.setFechaModificacion(LocalDateTime.now());
+        postulante.setCuestionario(cuestionario);
+        postulanteRepository.save(postulante);
+        return cuestionario;
+    }
+
+    @Override
+    public CuestionarioEntity update(CuestionarioEntity cuestionario, UserPrincipal user) {
+        CuestionarioEntity modelExist = findById(cuestionario.getId());
+        Integer promedio=0;
+        Integer suma=0;
+        for (DetalleCuestionarioEntity item: cuestionario.getListaDetalle()) {
+            item.setCuestionario(cuestionario);
+            OpcionEntity  opcion = opcionRepository.findById(item.getOpcion().getId()).orElseThrow(()-> new ServiceException(ErrorCode.V002));
+            item.setOpcion(opcion);
+            suma = suma + opcion.getPuntaje();
+        }
+
+        modelExist.setListaDetalle(cuestionario.getListaDetalle());
 
         promedio = suma/4;
-        PostulanteEntity postulante = postulanteService.findById(idPostulante);
-        postulante.setFechaModificacion(LocalDateTime.now());
-        postulante.setPuntuacion(promedio);
-        postulanteRepository.save(postulante);
+        cuestionario.setPromedio(promedio);
+        modelExist.setFechaModificacion(LocalDateTime.now());
+        modelExist.setUsuarioModifica(user.getId());
 
-        return cuestionarioRepository.saveAll(lista);
+        cuestionarioRepository.save(modelExist);
+        postulanteRepository.update(cuestionario.getIdPostulante(), user.getId(),LocalDateTime.now(),promedio );
+        return modelExist;
+    }
+
+    @Override
+    public CuestionarioEntity findById(Long id) {
+        return cuestionarioRepository.findById(id).orElseThrow(()->new ServiceException(ErrorCode.V002));
     }
 }

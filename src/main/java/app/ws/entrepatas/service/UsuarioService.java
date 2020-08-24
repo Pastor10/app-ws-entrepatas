@@ -18,7 +18,7 @@ public interface UsuarioService {
     UsuarioEntity update(UsuarioEntity model, UserPrincipal user);
     void delete(Long id, UserPrincipal user);
     UsuarioEntity findById(Long id);
-    Page<UsuarioEntity> findAll(Pageable pageable);
+    Page<UsuarioEntity> findAll(String nombres, String documento, Pageable pageable);
     List<UsuarioEntity> findAllIntegrantes();
     Boolean validateUuid(String uuid) throws ServiceException;
 }

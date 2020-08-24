@@ -1,6 +1,6 @@
 package app.ws.entrepatas.dto;
 
-import app.ws.entrepatas.model.PostulanteEntity;
+import app.ws.entrepatas.model.PostulanteColaboradorEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -20,13 +20,9 @@ import java.util.stream.Collectors;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PostulanteDto {
+public class PostulanteColaboradorDto {
 
     public Long id;
-
-    public PublicacionDto publicacion;
-
-    public Integer puntuacion;
 
     public PersonaDto persona;
 
@@ -34,22 +30,20 @@ public class PostulanteDto {
 
     private CuestionarioDto cuestionario;
 
-    public static PostulanteDto transformToDto(PostulanteEntity model) {
+    public static PostulanteColaboradorDto transformToDto(PostulanteColaboradorEntity model) {
         if (model == null) return null;
 
-        return PostulanteDto.builder()
+        return PostulanteColaboradorDto.builder()
                 .id(model.getId())
-                .publicacion(PublicacionDto.transformToDto(model.getPublicacion()))
-                .puntuacion(model.getPuntuacion())
                 .persona(PersonaDto.transformToDto(model.getPersona()))
                 .eliminado(model.getEliminado())
                 .cuestionario(CuestionarioDto.transformToDto(model.getCuestionario()))
                 .build();
     }
 
-    public static List<PostulanteDto> transformToDto(List<PostulanteEntity> model) {
+    public static List<PostulanteColaboradorDto> transformToDto(List<PostulanteColaboradorEntity> model) {
         if (model == null) return Collections.emptyList();
         return model.stream()
-                .map(PostulanteDto::transformToDto).collect(Collectors.toList());
+                .map(PostulanteColaboradorDto::transformToDto).collect(Collectors.toList());
     }
 }

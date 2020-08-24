@@ -1,5 +1,6 @@
 package app.ws.entrepatas.service.impl;
 
+import app.ws.entrepatas.enums.CondicionAnimal;
 import app.ws.entrepatas.enums.ErrorCode;
 import app.ws.entrepatas.enums.EstadoPublicacion;
 import app.ws.entrepatas.exception.NoExistEntityException;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,9 +51,9 @@ public class PublicacionServiceImpl implements PublicacionService {
     }
 
     @Override
-    public Page<PublicacionEntity> findAll(Pageable page) {
+    public Page<PublicacionEntity> findAll(LocalDate desde, LocalDate hasta, List<CondicionAnimal> condicion, Pageable page) {
         Long idPerfil = 2l;
-        return publicacionRepository.findAllPublicaciones(idPerfil,page);
+        return publicacionRepository.findAllPublicaciones(desde, hasta, condicion,idPerfil,page);
     }
 
     @Override

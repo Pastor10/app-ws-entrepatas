@@ -61,9 +61,13 @@ public class UsuarioController {
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<Page<UsuarioDto>> findAll(@RequestHeader(value="Authorization") String authorization, @RequestParam(name = "page") Integer page, @RequestParam(name = "perPage") Integer perPage) {
+    public ResponseEntity<Page<UsuarioDto>> findAll(@RequestHeader(value="Authorization") String authorization,
+                                                    @RequestParam(name = "page") Integer page,
+                                                    @RequestParam(name = "perPage") Integer perPage,
+                                                    @RequestParam(name = "documento", required = false) String documento,
+                                                    @RequestParam(name = "nombres", required = false) String  nombres) {
         Pageable pageable = PageRequest.of(page, perPage);
-        return ResponseEntity.ok().body(usuarioService.findAll(pageable).map(UsuarioDto::transformToDto));
+        return ResponseEntity.ok().body(usuarioService.findAll(nombres, documento, pageable).map(UsuarioDto::transformToDto));
     }
 
     @GetMapping("/integrantes")

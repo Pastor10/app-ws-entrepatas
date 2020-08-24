@@ -1,6 +1,8 @@
 package app.ws.entrepatas.controller;
 
+import app.ws.entrepatas.dto.PostulanteColaboradorDto;
 import app.ws.entrepatas.dto.PostulanteDto;
+import app.ws.entrepatas.model.PostulanteColaboradorEntity;
 import app.ws.entrepatas.model.PostulanteEntity;
 import app.ws.entrepatas.security.CurrentUser;
 import app.ws.entrepatas.security.UserPrincipal;
@@ -41,6 +43,11 @@ public class PostulanteController {
     @PutMapping("/update")
     public PostulanteDto update(@RequestHeader(value="Authorization") String authorization,  @ApiIgnore @CurrentUser UserPrincipal user, @RequestBody PostulanteEntity postulante) {
         return PostulanteDto.transformToDto(postulanteService.update(postulante, user));
+    }
+
+    @PostMapping("/colaborador")
+    public PostulanteColaboradorDto creaateSolicitudColaborador(@RequestBody PostulanteColaboradorEntity postulante) {
+        return PostulanteColaboradorDto.transformToDto(postulanteService.createSolicitud(postulante));
     }
 
 }

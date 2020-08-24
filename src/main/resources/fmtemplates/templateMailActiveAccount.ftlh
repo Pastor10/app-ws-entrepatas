@@ -61,18 +61,20 @@
                                                         </tr>
                                                         <tr>
                                                             <td align="left" class="link-wrap" style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 0px; padding: 0; padding-bottom: 20px; word-break: break-word;">
-                                                                <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 25px; text-align: left; color: #4F4F4F;"><br> Estimado ${usuario}: <br><br>
-                                                                    Pronto seras parte de esta gran familia. Accede al siguiente enlace para continuar con la activación de tu cuenta.</div>
+                                                                <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 25px; text-align: left; color: #4F4F4F;"><br>Bienvenido(a) ${usuario}: <br><br>
+                                                                    Pronto seras parte de esta gran familia. Copia y pega el siguiente enlace en tu navegador para continuar con la activación de tu cuenta.</div>
                                                             </td>
                                                         </tr>
+
                                                         <tr>
                                                             <td align="left" class="link-wrap" style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 0px; padding: 0; padding-bottom: 20px; word-break: break-word;">
-                                                                <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 16px; font-weight: 300; line-height: 25px; text-align: left; color: #4F4F4F;"><strong>  <a href="${url}" >Hacer click Aqui
-                                                                        </a> </strong> <br></div>
+                                                                <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 16px; font-weight: 300; line-height: 25px; text-align: left; color: #0000FF;"><strong>${url}</strong> <br></div>
                                                             </td>
                                                         </tr>
+
                                                         <tr>
                                                             <td align="left" class="link-wrap" style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 0px; padding: 0; padding-bottom: 20px; word-break: break-word;">
+                                                                <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 16px; font-weight: 300; line-height: 25px; text-align: left; color: #4F4F4F;"><strong>Estas son las credenciales de acceso al sistema: </strong><br></div>
                                                                 <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 16px; font-weight: 300; line-height: 25px; text-align: left; color: #4F4F4F;"><strong>Usuario: </strong> ${username}<br></div>
                                                                 <div style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; font-size: 16px; font-weight: 300; line-height: 25px; text-align: left; color: #4F4F4F;"><strong>Password: </strong> ${password}<br></div>
                                                             </td>

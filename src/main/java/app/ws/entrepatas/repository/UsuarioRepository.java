@@ -22,8 +22,13 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
     Optional<UsuarioEntity> findByUuid(String uuid);
     UsuarioEntity findByPersonaNumeroDocumento(String documento);
 
-    @Query(value = "select u from UsuarioEntity u where u.eliminado = false")
-    Page<UsuarioEntity> findAllUsers(Pageable pageable);
+    @Query(value = "select u from UsuarioEntity u " +
+            " join u.persona p " +
+            " where u.eliminado = false " +
+            " and (:nombres is null or (p.nombre like concat('%', :nombres, '%') ) ) " +
+            " and (:documento is null or p.numeroDocumento=:documento)")
+
+    Page<UsuarioEntity> findAllUsers(@Param("nombres") String nombres, @Param("documento") String documento, Pageable pageable);
 
     @Query(value = "select u from UsuarioEntity u " +
             " inner join  u.perfil p " +

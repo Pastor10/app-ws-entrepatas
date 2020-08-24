@@ -1,16 +1,20 @@
 package app.ws.entrepatas.controller;
 
+import app.ws.entrepatas.dto.CuestionarioDto;
 import app.ws.entrepatas.model.CuestionarioEntity;
+import app.ws.entrepatas.security.CurrentUser;
+import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.CuestionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("api/cuestionario")
@@ -21,7 +25,13 @@ public class CuestionarioController {
     CuestionarioService cuestionarioService;
 
     @PostMapping("/create")
-    public List<CuestionarioEntity> create(@RequestHeader(value="Authorization") String authorization,@RequestBody List<CuestionarioEntity> lista) {
-        return cuestionarioService.create(lista);
+    public CuestionarioDto create(@RequestHeader(value="Authorization") String authorization,
+                                  @RequestBody CuestionarioEntity cuestionario,  @ApiIgnore @CurrentUser UserPrincipal user) {
+        return CuestionarioDto.transformToDto(cuestionarioService.create(cuestionario, user));
+    }
+
+    @PutMapping("/update")
+    public CuestionarioDto update(@RequestHeader(value="Authorization") String authorization, @RequestBody CuestionarioEntity cuestionario, @ApiIgnore @CurrentUser UserPrincipal user) {
+        return CuestionarioDto.transformToDto(cuestionarioService.update(cuestionario, user));
     }
 }

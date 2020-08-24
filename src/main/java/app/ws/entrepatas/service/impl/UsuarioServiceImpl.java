@@ -126,8 +126,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Page<UsuarioEntity> findAll(Pageable pageable) {
-    	return repository.findAllUsers(pageable);
+    public Page<UsuarioEntity> findAll(String nombres, String documento,Pageable pageable) {
+    	return repository.findAllUsers(nombres, documento,pageable);
     }
 
     @Override

@@ -1,10 +1,12 @@
 package app.ws.entrepatas.controller;
 
 import app.ws.entrepatas.dto.PublicacionDto;
+import app.ws.entrepatas.enums.CondicionAnimal;
 import app.ws.entrepatas.model.PublicacionEntity;
 import app.ws.entrepatas.security.CurrentUser;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.PublicacionService;
+import app.ws.entrepatas.util.UtilDate;
 import com.amazonaws.services.s3.AmazonS3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -53,9 +57,16 @@ public class PublicacionController {
     @GetMapping("/findAll")
     public ResponseEntity<Page<PublicacionDto>> findAll(@RequestHeader(value="Authorization") String authorization,
                                                         @RequestParam(name = "page") Integer page,
-                                                        @RequestParam(name = "perPage") Integer perPage) {
+                                                        @RequestParam(name = "perPage") Integer perPage,
+                                                        @RequestParam(name = "desde", required = false) String desde,
+                                                        @RequestParam(name = "hasta", required = false) String hasta,
+                                                        @RequestParam(name = "condicion", required = false) List<CondicionAnimal> condicion) {
         Pageable pageable = PageRequest.of(page, perPage);
-        return ResponseEntity.ok().body(publicacionService.findAll(pageable).map(PublicacionDto::transformToDto));
+        LocalDate filtroDesde = null;
+        LocalDate filtroHasta = null;
+        if (desde != null) filtroDesde = UtilDate.stringToLocalDate(desde, "dd-MM-yyyy");
+        if (hasta != null) filtroHasta = UtilDate.stringToLocalDate(hasta, "dd-MM-yyyy");
+        return ResponseEntity.ok().body(publicacionService.findAll(filtroDesde, filtroHasta, condicion,pageable).map(PublicacionDto::transformToDto));
     }
 
     @GetMapping("/findAll-visitantes")

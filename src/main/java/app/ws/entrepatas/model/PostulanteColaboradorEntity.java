@@ -1,52 +1,43 @@
 package app.ws.entrepatas.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
-import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.Date;
-
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "postulante_colaborador")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UsuarioEntity {
+public class PostulanteColaboradorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public Long id;
 
-    @Column(name = "user_name")
-    private String username;
-
-    @Column(name = "password")
-    public String password;
-
-    @Column(name = "foto")
-    public String foto;
-
-    @Column(name = "uuid")
-    public String uuid;
-
-    @ManyToOne
-    @JoinColumn(name = "id_perfil", nullable = false)
-    private PerfilEntity perfil;
-
-    @Transient
-    private String passwordTrans;
-
-    @Column(name = "estado")
-    public Boolean estado;
-
     @OneToOne
     @JoinColumn(name = "id_persona")
     public PersonaEntity persona;
+
+    @OneToOne
+    @JoinColumn(name = "id_cuestionario")
+    public CuestionarioEntity cuestionario;
+
 
     @Column(name = "eliminado")
     private Boolean eliminado;
@@ -68,5 +59,4 @@ public class UsuarioEntity {
 
     @Column( name = "fecha_eliminacion")
     private LocalDateTime fechaEliminacion;
-
 }

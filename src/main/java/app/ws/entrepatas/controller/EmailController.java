@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 public class EmailController {
 
-    @Value("${app.url.send-email}")
-    private String urlSendEmail;
 
     @Autowired
     EmailService emailService;
@@ -28,9 +26,9 @@ public class EmailController {
         PersonaEntity persona = new PersonaEntity();
 
         persona.setNombreCompleto("LUIS PASTOR");
-        persona.setCorreo("josesaenzromero@gmail.com");
+        persona.setCorreo("jolteon_10@hotmail.com");
         persona.setNumeroDocumento("7878787");
-        user.setUuid(urlSendEmail.concat("4206110e-ce0b-41f4-8c31-9f9adfeb4af1"));
+        user.setUuid("4206110e-ce0b-41f4-8c31-9f9adfeb4af1");
         user.setPersona(persona);
         user.setUsername("68676866");
         emailService.sendEmailActiveAccount(user);

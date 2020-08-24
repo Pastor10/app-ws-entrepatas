@@ -33,8 +33,12 @@ public class PostulanteEntity {
     @JoinColumn(name = "id_persona")
     public PersonaEntity persona;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "postulante", cascade = CascadeType.ALL)
-    private List<CuestionarioEntity> listaCuestionario;
+    @OneToOne
+    @JoinColumn(name = "id_cuestionario")
+    public CuestionarioEntity cuestionario;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "postulante", cascade = CascadeType.ALL)
+//    private List<CuestionarioEntity> listaCuestionario;
 
 
     @Column(name = "eliminado")
