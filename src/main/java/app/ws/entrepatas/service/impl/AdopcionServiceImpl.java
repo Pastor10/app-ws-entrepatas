@@ -6,6 +6,7 @@ import app.ws.entrepatas.enums.EstadoAdopcion;
 import app.ws.entrepatas.enums.EstadoPublicacion;
 import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.AdopcionEntity;
+import app.ws.entrepatas.model.PerfilEntity;
 import app.ws.entrepatas.model.PersonaEntity;
 import app.ws.entrepatas.model.PublicacionEntity;
 import app.ws.entrepatas.model.UsuarioEntity;
@@ -13,6 +14,7 @@ import app.ws.entrepatas.repository.AdopcionRepository;
 import app.ws.entrepatas.repository.PersonaRepository;
 import app.ws.entrepatas.repository.PublicacionRepository;
 import app.ws.entrepatas.repository.UsuarioRepository;
+import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.AdopcionService;
 import app.ws.entrepatas.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,7 @@ public class AdopcionServiceImpl implements AdopcionService {
     EmailService emailService;
 
     @Override
-    public AdopcionEntity create(AdopcionEntity model) {
+    public AdopcionEntity create(AdopcionEntity model, UserPrincipal user) {
         PersonaEntity personaExist = personaRepository.findByNumeroDocumento(model.getPersona().getNumeroDocumento());
 
         if (personaExist!=null){
@@ -56,27 +58,39 @@ public class AdopcionServiceImpl implements AdopcionService {
             model.getPersona().setNombreCompleto(PersonaDto.getNombresCompletos(model.getPersona()));
             personaRepository.save(model.getPersona());
 
-            if (model.getCreateUser()){
-                UsuarioEntity user = new UsuarioEntity();
-                user.setPersona(model.getPersona());
-                user.setEliminado(Boolean.FALSE);
-                user.setFechaCreacion(LocalDateTime.now());
-                user.setUsername(model.getPersona().getCorreo());
-                user.setPassword(new BCryptPasswordEncoder().encode(model.getPersona().getNumeroDocumento()));
-                usuarioRepository.save(user);
-            }
         }
+
+        if (model.getCreateUser()){
+            UsuarioEntity modelExist = usuarioRepository.findByPersonaNumeroDocumento(model.getPersona().getNumeroDocumento());
+            if (modelExist!=null){
+                throw new ServiceException(ErrorCode.V007);
+            }
+            UsuarioEntity usuario = new UsuarioEntity();
+            usuario.setPersona(model.getPersona());
+            usuario.setEliminado(Boolean.FALSE);
+            usuario.setEstado(Boolean.TRUE);
+            usuario.setFechaCreacion(LocalDateTime.now());
+            usuario.setUsuarioCrea(user.getId());
+            usuario.setUsername(model.getPersona().getNumeroDocumento());
+            usuario.setPassword(new BCryptPasswordEncoder().encode(model.getPersona().getNumeroDocumento()));
+            PerfilEntity perfil = new PerfilEntity();
+            perfil.setId(2l);
+            usuario.setPerfil(perfil);
+
+            usuarioRepository.save(usuario);
+        }
+
 
         PublicacionEntity publicacion =publicacionRepository.findByAnimal_Id(model.getAnimal().getId());
         publicacion.setFechaModificacion(LocalDateTime.now());
         publicacion.setEstadoPublicacion(EstadoPublicacion.FINALIZADO);
-        //publicacion.setUsuarioModifica();
+        publicacion.setUsuarioModifica(user.getId());
         publicacionRepository.save(publicacion);
 
         model.setFechaCreacion(LocalDateTime.now());
         model.setEstadoAdopcion(EstadoAdopcion.RESERVADO);
         model.setEliminado(Boolean.FALSE);
-       // model.getAnimal().
+        model.setUsuarioCrea(user.getId());
         emailService.sendEmailAdopcion(model);
         return adopcionRepository.save(model);
     }

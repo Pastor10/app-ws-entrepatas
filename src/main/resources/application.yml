@@ -24,7 +24,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: spiderman
-    url: jdbc:mysql://localhost:3306/db_entrepatas?useSSL=false&serverTimezone=America/Lima
+    url: jdbc:mysql://entrepatas.chvnoan2a4mv.us-east-2.rds.amazonaws.com/db_entrepatas?useSSL=false&serverTimezone=America/Lima
     username: root
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -35,7 +35,7 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: false
   mail:
-    from: luisyum@gmail.com
+    from: entrepataschepen2014@gmail.com
     host: email-smtp.us-east-2.amazonaws.com
     username: AKIA4JEATZWMMB43BLFT
     password: BJzfyA110pOggr4R0uZY+siVkYg2l5LdN9p/L41ex/ZY
@@ -57,7 +57,7 @@ email:
       subject: Activación de cuenta
     templatePostulante:
       subject: Solicitud de adopción
-  from: luisyum@gmail.com
+  from: entrepataschepen2014@gmail.com
   name: EntrePatas
 
 feign:

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import javax.persistence.Column;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,20 +20,15 @@ import java.util.stream.Collectors;
 public class LocalDto {
 
     public Long id;
-
     public String nombre;
-
     public UsuarioDto usuario;
-
     public TipoLocalEntity tipoLocal;
-
-    public UbigeoEntity ubigeo;
-
+    public UbigeoDto ubigeo;
     public Integer capacidad;
-
     public String direccion;
-
     public Boolean estado;
+    public Integer alojado;
+    public Boolean disponible;
 
     public static LocalDto transformToDto(LocalEntity model) {
         if (model == null) return null;
@@ -41,17 +37,19 @@ public class LocalDto {
                 .id(model.getId())
                 .usuario(UsuarioDto.transformToDto(model.getUsuario()))
                 .tipoLocal(TipoLocalEntity.builder().id(model.getTipoLocal().getId()).build())
-                .ubigeo(UbigeoEntity.builder().id(model.getUbigeo().getId()).build())
+                .ubigeo(UbigeoDto.transformToDto(model.getUbigeo()))
                 .nombre(model.getNombre())
                 .capacidad(model.getCapacidad())
                 .direccion(model.getDireccion())
                 .estado(model.getEstado())
+                .alojado(model.getAlojado())
+                .disponible(model.getDisponible())
                 .build();
     }
 
     public static List<LocalDto> transformToDto(List<LocalEntity> model) {
         if (model == null) return Collections.emptyList();
-        return model.stream()
+        return model.stream().filter(it -> it.getDisponible()==null || it.getDisponible() ==true)
                 .map(LocalDto::transformToDto).collect(Collectors.toList());
     }
 }

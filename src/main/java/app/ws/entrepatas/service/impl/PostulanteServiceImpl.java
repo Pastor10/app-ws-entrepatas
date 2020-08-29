@@ -111,17 +111,24 @@ public class PostulanteServiceImpl implements PostulanteService {
             model.getPersona().setFechaCreacion(LocalDateTime.now());
             personaRepository.save(model.getPersona());
         }else{
-            model.setPersona(persona);
-            for (DetalleCuestionarioEntity item: model.getCuestionario().getListaDetalle()) {
-                item.setCuestionario(model.getCuestionario());
-               // OpcionEntity opcion = opcionRepository.findById(item.getOpcion().getId()).orElseThrow(()-> new ServiceException(ErrorCode.V002));
-               // item.setOpcion(opcion);
+            PostulanteColaboradorEntity modelExist = postulanteColaboradorRepository.findByPersona_Id(persona.getId());
+            if (modelExist!=null){
+                throw new ServiceException(ErrorCode.V008);
             }
-            model.getCuestionario().setFechaCreacion(LocalDateTime.now());
-            model.getCuestionario().setEliminado(Boolean.FALSE);
-            model.getCuestionario().setTipoCuestionario(TipoCuestionarioEntity.builder().id(2l).build());
-            cuestionarioRepository.save(model.getCuestionario());
+            model.setPersona(persona);
+
         }
+
+        for (DetalleCuestionarioEntity item: model.getCuestionario().getListaDetalle()) {
+            item.setCuestionario(model.getCuestionario());
+            // OpcionEntity opcion = opcionRepository.findById(item.getOpcion().getId()).orElseThrow(()-> new ServiceException(ErrorCode.V002));
+            // item.setOpcion(opcion);
+        }
+        model.getCuestionario().setFechaCreacion(LocalDateTime.now());
+        model.getCuestionario().setEliminado(Boolean.FALSE);
+        model.getCuestionario().setTipoCuestionario(TipoCuestionarioEntity.builder().id(2l).build());
+        cuestionarioRepository.save(model.getCuestionario());
+
         model.setFechaCreacion(LocalDateTime.now());
         model.setEliminado(Boolean.FALSE);
         return postulanteColaboradorRepository.save(model);

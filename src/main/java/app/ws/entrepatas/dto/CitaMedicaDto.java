@@ -38,6 +38,8 @@ public class CitaMedicaDto {
 
     public Boolean eliminado;
 
+    public String foto;
+
     public static CitaMedicaDto transformToDto(CitaMedicaEntity model) {
         if (model == null) return null;
 
@@ -50,6 +52,7 @@ public class CitaMedicaDto {
                 .numero(model.getNumero())
                 .eliminado(model.getEliminado())
                 .listaTratamiento(TratamientoMedicoDto.transformToDto(model.getListaTratamiento()))
+                .foto(model.getFoto())
                 .build();
     }
 

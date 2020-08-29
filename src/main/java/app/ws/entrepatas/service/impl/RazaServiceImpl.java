@@ -5,6 +5,8 @@ import app.ws.entrepatas.model.RazaEntity;
 import app.ws.entrepatas.repository.RazaRepository;
 import app.ws.entrepatas.service.RazaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -57,8 +59,8 @@ public class RazaServiceImpl implements RazaService {
     }
 
     @Override
-    public List<RazaEntity> findAll() {
-        return razaRepository.findAll();
+    public Page<RazaEntity> findAll(Pageable page) {
+        return razaRepository.findAllRaza(page);
     }
 
     @Override

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostulanteColaboradorRepository extends JpaRepository<PostulanteColaboradorEntity, Long> {
+    PostulanteColaboradorEntity findByPersona_Id(Long idPersona);
 }

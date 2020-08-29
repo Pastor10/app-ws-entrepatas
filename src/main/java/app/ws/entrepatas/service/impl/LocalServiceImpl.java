@@ -27,6 +27,7 @@ public class LocalServiceImpl implements LocalService {
     public LocalEntity create(LocalEntity model, UserPrincipal user) {
         model.setFechaCreacion(LocalDateTime.now());
         model.setUsuarioCrea(user.getId());
+        model.setDisponible(Boolean.TRUE);
         return localRepository.save(model);
 
     }

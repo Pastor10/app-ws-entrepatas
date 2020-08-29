@@ -1,6 +1,9 @@
 package app.ws.entrepatas.repository;
 
+import app.ws.entrepatas.model.PublicacionEntity;
 import app.ws.entrepatas.model.RazaEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +19,7 @@ public interface RazaRepository extends JpaRepository<RazaEntity, Long> {
     List<RazaEntity> findAllById(@Param("id")Long id);
 
     List<RazaEntity> findAllByTipoAnimal_Id(Long id);
+
+    @Query(value = "select r from RazaEntity r where r.estado= true")
+    Page<RazaEntity> findAllRaza(Pageable pageable);
 }

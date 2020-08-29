@@ -41,11 +41,18 @@ public class LocalEntity {
     @Column(name = "capacidad")
     public Integer capacidad;
 
+
     @Column(name = "direccion")
     public String direccion;
 
     @Column(name = "estado")
     public Boolean estado;
+
+    @Column(name = "alojado")
+    public Integer alojado;
+
+    @Column(name = "disponible")
+    public Boolean disponible;
 
 
     @Column(name = "eliminado")

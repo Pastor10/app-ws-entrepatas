@@ -41,6 +41,9 @@ public class CitaMedicaEntity {
     @Enumerated(EnumType.STRING)
     public EstadoClinico estadoClinico;
 
+    @Column(name = "foto")
+    public String foto;
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "citaMedica", cascade = CascadeType.ALL)
     private List<TratamientoMedicoEntity> listaTratamiento;

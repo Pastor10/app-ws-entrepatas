@@ -2,6 +2,8 @@ package app.ws.entrepatas.controller;
 
 import app.ws.entrepatas.dto.AdopcionDto;
 import app.ws.entrepatas.model.AdopcionEntity;
+import app.ws.entrepatas.security.CurrentUser;
+import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.AdopcionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("api/adopcion")
@@ -28,8 +31,8 @@ public class AdopcionController {
     AdopcionService adopcionService;
 
     @PostMapping("/create")
-    public AdopcionEntity create(@RequestHeader(value="Authorization") String authorization,@RequestBody AdopcionEntity adopcion) {
-        return adopcionService.create(adopcion);
+    public AdopcionEntity create(@RequestHeader(value="Authorization") String authorization,@RequestBody AdopcionEntity adopcion,  @ApiIgnore @CurrentUser UserPrincipal user) {
+        return adopcionService.create(adopcion, user);
     }
 
     @GetMapping("/findAll")

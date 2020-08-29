@@ -1,6 +1,7 @@
 package app.ws.entrepatas.controller;
 
 
+import app.ws.entrepatas.dto.LocalDto;
 import app.ws.entrepatas.model.LocalEntity;
 import app.ws.entrepatas.security.CurrentUser;
 import app.ws.entrepatas.security.UserPrincipal;
@@ -29,7 +30,12 @@ public class LocalController {
 
     @GetMapping("findAll")
     public List<LocalEntity> findAll(@RequestHeader(value="Authorization") String authorization){
-        return localService.findAll();
+        return  localService.findAll();
+    }
+
+    @GetMapping("findAllDisponibles")
+    public List<LocalDto> findAllDisponibles(@RequestHeader(value="Authorization") String authorization){
+        return  LocalDto.transformToDto(localService.findAll());
     }
 
     @PostMapping("/create")

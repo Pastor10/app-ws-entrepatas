@@ -10,6 +10,7 @@ public enum ErrorCode {
     V005("0005","No se pudo cargar la imagen"),
     V006("0006","Usted ya tiene una solicitud registrada a esta publicación"),
     V007("0007","El usuario ya se encuentra registrado."),
+    V008("0008","Ya existe una solicitud pendiente para este doumento."),
     V013("0013","No se pudo realizar LA SUBIDA DE ARCHIVOS"),
     V018("0018","Cuenta de usuario inactiva"),
     V019("0019","La contraseña actual es incorrecta"),

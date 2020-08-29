@@ -1,9 +1,14 @@
 package app.ws.entrepatas.controller;
 
+import app.ws.entrepatas.dto.PublicacionDto;
 import app.ws.entrepatas.exception.NoExistEntityException;
 import app.ws.entrepatas.model.RazaEntity;
 import app.ws.entrepatas.service.RazaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,8 +37,11 @@ public class RazaController {
     }
 
     @GetMapping("/findAll")
-    public List<RazaEntity> findAll(@RequestHeader(value="Authorization") String authorization) {
-        return razaService.findAll();
+    public ResponseEntity<Page<RazaEntity>> findAll(@RequestHeader(value="Authorization") String authorization,
+                                                    @RequestParam(name = "page") Integer page,
+                                                    @RequestParam(name = "perPage") Integer perPage) {
+        Pageable pageable = PageRequest.of(page, perPage);
+        return ResponseEntity.ok().body(razaService.findAll(pageable));
     }
 
     @DeleteMapping("/delete/{id}")

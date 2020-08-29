@@ -6,9 +6,13 @@ import app.ws.entrepatas.enums.EstadoPublicacion;
 import app.ws.entrepatas.exception.NoExistEntityException;
 import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.AnimalEntity;
+import app.ws.entrepatas.model.LocalEntity;
 import app.ws.entrepatas.model.PublicacionEntity;
+import app.ws.entrepatas.model.UsuarioEntity;
 import app.ws.entrepatas.repository.AnimalRepository;
+import app.ws.entrepatas.repository.LocalRepository;
 import app.ws.entrepatas.repository.PublicacionRepository;
+import app.ws.entrepatas.repository.UsuarioRepository;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +35,12 @@ public class PublicacionServiceImpl implements PublicacionService {
     @Autowired
     AnimalRepository animalRepository;
 
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
+    @Autowired
+    LocalRepository localRepository;
+
 
 
     @Override
@@ -41,7 +51,25 @@ public class PublicacionServiceImpl implements PublicacionService {
         model.getAnimal().setNombre(model.getAnimal().getNombre().toUpperCase());
         animalRepository.save(model.getAnimal());
 
-        //animalRepository.save(animal);
+        UsuarioEntity usuario = usuarioRepository.findById(user.getId()).orElseThrow(()->new ServiceException(ErrorCode.V002));
+
+        if (!usuario.getPerfil().getNombre().equalsIgnoreCase("VISITANTE")){
+            LocalEntity local= localRepository.findById(model.getAnimal().getLocal().getId()).orElseThrow(()->new ServiceException(ErrorCode.V002));
+            Integer actualAlojado= local.getAlojado()==null?0:local.getAlojado();
+            Integer nuevoAlojado=actualAlojado+1;
+
+            if (local.getCapacidad()> nuevoAlojado){
+                local.setDisponible(Boolean.TRUE);
+            } else{
+                local.setDisponible(Boolean.FALSE);
+            }
+            local.setAlojado(nuevoAlojado);
+            local.setUsuarioModifica(user.getId());
+            local.setFechaModificacion(LocalDateTime.now());
+            localRepository.save(local);
+
+        }
+
         model.setAnimal(model.getAnimal());
         model.setEstadoPublicacion(EstadoPublicacion.PENDIENTE);
         model.setEliminado(Boolean.FALSE);

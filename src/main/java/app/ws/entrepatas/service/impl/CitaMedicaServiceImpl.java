@@ -55,6 +55,7 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
                 PublicacionEntity modelExist=  publicacionRepository.findByAnimal_Id(model.getAnimal().getId());
                 modelExist.setFechaModificacion(LocalDateTime.now());
                 modelExist.setEstadoPublicacion(EstadoPublicacion.APROBADO);
+                modelExist.getAnimal().setFoto(model.getFoto());
                 publicacionRepository.save(modelExist);
 
             }

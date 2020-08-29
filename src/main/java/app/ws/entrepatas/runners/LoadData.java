@@ -197,6 +197,9 @@ public class LoadData implements CommandLineRunner {
             roles.add(new RoleEntity(RoleName.ROLE_ANIMAL_TAMANO));
             roles.add(new RoleEntity(RoleName.ROLE_ANIMAL_TIPO));
 
+            //POSTULANTE-COLABORADOR
+            roles.add(new RoleEntity(RoleName.ROLE_POSTULANTE_COLABORADOR));
+
 
 
             List<RoleEntity> rolesExistent = roleRepository.findAll();

@@ -26,7 +26,7 @@ public class EmailController {
         PersonaEntity persona = new PersonaEntity();
 
         persona.setNombreCompleto("LUIS PASTOR");
-        persona.setCorreo("jolteon_10@hotmail.com");
+        persona.setCorreo("luisyum@gmail.com");
         persona.setNumeroDocumento("7878787");
         user.setUuid("4206110e-ce0b-41f4-8c31-9f9adfeb4af1");
         user.setPersona(persona);

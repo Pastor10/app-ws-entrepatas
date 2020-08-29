@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,8 @@ public class PostulanteColaboradorDto {
 
     private CuestionarioDto cuestionario;
 
+    private LocalDateTime fechaCreacion;
+
     public static PostulanteColaboradorDto transformToDto(PostulanteColaboradorEntity model) {
         if (model == null) return null;
 
@@ -38,6 +41,7 @@ public class PostulanteColaboradorDto {
                 .persona(PersonaDto.transformToDto(model.getPersona()))
                 .eliminado(model.getEliminado())
                 .cuestionario(CuestionarioDto.transformToDto(model.getCuestionario()))
+                .fechaCreacion(model.getFechaCreacion())
                 .build();
     }
 
