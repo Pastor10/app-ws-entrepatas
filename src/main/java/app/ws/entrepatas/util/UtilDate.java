@@ -12,9 +12,18 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 public class UtilDate {
+
+    public static Date localDateConvertToDate(LocalDate dateToConvert) {
+        return java.util.Date.from(dateToConvert.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+    }
 
     public static Date getDateWithoutTime() {
         Calendar calendar = Calendar.getInstance();
@@ -61,6 +70,17 @@ public class UtilDate {
         if (date == null) return null;
         try {
             return  LocalDate.parse(date, formatter);
+        } catch (Exception e) {
+            throw new ServiceException("Error en formato de fecha " + date);
+        }
+    }
+
+
+    public static LocalDateTime stringToLocalDateTime(String date, String format) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        if (date == null) return null;
+        try {
+            return  LocalDateTime.parse(date, formatter);
         } catch (Exception e) {
             throw new ServiceException("Error en formato de fecha " + date);
         }
@@ -122,6 +142,18 @@ public class UtilDate {
         } catch (Exception e) {
             throw new ServiceException("Error en formato de fecha ");
         }
+    }
+
+    public static List<LocalDate> obtenerUltimos12meses(){
+
+        LocalDate fechaFin = LocalDate.now();
+        LocalDate fechaInicio = fechaFin.plusMonths(-11);
+
+        return Stream.iterate(fechaInicio, d -> d.plusMonths(1))
+                .takeWhile(d -> d.isBefore(fechaFin.plusMonths(1)))
+                .collect(Collectors.toList());
+
+
     }
 
 

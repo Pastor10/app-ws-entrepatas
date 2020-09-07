@@ -2,6 +2,7 @@ package app.ws.entrepatas.controller;
 
 import app.ws.entrepatas.dto.PostulanteColaboradorDto;
 import app.ws.entrepatas.service.PostulanteColaboradorService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ public class PostulanteColaboradorController {
     PostulanteColaboradorService postulanteColaboradorService;
 
     @GetMapping("/findAll")
+    @ApiOperation(value = "listado de todas solicitudes de voluntarios")
     public List<PostulanteColaboradorDto> findAll(@RequestHeader(value="Authorization") String authorization) {
         return PostulanteColaboradorDto.transformToDto(postulanteColaboradorService.findAll());
     }

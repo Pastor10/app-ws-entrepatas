@@ -5,6 +5,7 @@ import app.ws.entrepatas.model.AdopcionEntity;
 import app.ws.entrepatas.security.CurrentUser;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.AdopcionService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,11 +32,13 @@ public class AdopcionController {
     AdopcionService adopcionService;
 
     @PostMapping("/create")
+    @ApiOperation(value = "reserva adopcion a un postulante")
     public AdopcionEntity create(@RequestHeader(value="Authorization") String authorization,@RequestBody AdopcionEntity adopcion,  @ApiIgnore @CurrentUser UserPrincipal user) {
         return adopcionService.create(adopcion, user);
     }
 
     @GetMapping("/findAll")
+    @ApiOperation(value = "lista todas las adopciones registradas")
     public ResponseEntity<Page<AdopcionDto>> findAll(@RequestHeader(value="Authorization") String authorization,@RequestParam(name = "page") Integer page,
                                                         @RequestParam(name = "perPage") Integer perPage) {
         Pageable pageable = PageRequest.of(page, perPage);
@@ -43,6 +46,7 @@ public class AdopcionController {
     }
 
     @GetMapping("/findAllDevoluciones")
+    @ApiOperation(value = "lista todas las devoluciones registradas")
     public ResponseEntity<Page<AdopcionDto>> findAllDevoluciones(@RequestHeader(value="Authorization") String authorization,@RequestParam(name = "page") Integer page,
                                                  @RequestParam(name = "perPage") Integer perPage) {
         Pageable pageable = PageRequest.of(page, perPage);
@@ -52,11 +56,13 @@ public class AdopcionController {
 
 
     @PutMapping("/update")
+    @ApiOperation(value = "actualiza una adopcion")
     public AdopcionDto update(@RequestHeader(value="Authorization") String authorization,@RequestBody AdopcionEntity adopcion) {
         return AdopcionDto.transformToDto(adopcionService.update(adopcion));
     }
 
     @GetMapping("/findById/{id}")
+    @ApiOperation(value = "busca adopcion por id")
     public AdopcionDto getAdopcionById(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long id) {
         return AdopcionDto.transformToDto(adopcionService.findById(id));
     }

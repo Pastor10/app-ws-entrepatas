@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,14 +24,11 @@ public class UsuarioDto {
 
     @ApiModelProperty(readOnly = true)
     public Long id;
-
     private String username;
-
     public PersonaDto persona;
-
     public PerfilDto perfil;
-
     public Boolean estado;
+    public LocalDateTime fechaCreacion;
 
     public static UsuarioDto transformToDto(UsuarioEntity model) {
         if (model == null) return null;
@@ -41,6 +39,7 @@ public class UsuarioDto {
                 .persona(PersonaDto.transformToDto(model.getPersona()))
                 .perfil(PerfilDto.transformToDto(model.getPerfil()))
                 .estado(model.getEstado())
+                .fechaCreacion(model.getFechaCreacion())
                 .build();
     }
 

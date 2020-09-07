@@ -1,9 +1,12 @@
 package app.ws.entrepatas.service.impl;
 
+import app.ws.entrepatas.enums.ErrorCode;
 import app.ws.entrepatas.exception.NoExistEntityException;
+import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.RazaEntity;
 import app.ws.entrepatas.model.TipoEventoEntity;
 import app.ws.entrepatas.repository.TipoEventoRepository;
+import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.TipoEventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +40,18 @@ public class TipoEventoServiceImpl implements TipoEventoService {
         } else {
             throw new NoExistEntityException("No existe");
         }
+    }
+
+    @Override
+    public TipoEventoEntity update(TipoEventoEntity model, UserPrincipal user) {
+        TipoEventoEntity modelExist = findById(model.getId());
+        modelExist.setNombre(model.getNombre());
+        modelExist.setEstado(model.getEstado());
+        return tipoEventoRepository.save(modelExist);
+    }
+
+    @Override
+    public TipoEventoEntity findById(Long id) {
+        return tipoEventoRepository.findById(id).orElseThrow(()->new ServiceException(ErrorCode.V002));
     }
 }

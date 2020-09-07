@@ -1,6 +1,7 @@
 package app.ws.entrepatas.service.impl;
 
 import app.ws.entrepatas.dto.PersonaDto;
+import app.ws.entrepatas.dto.request.PasswordRequestDto;
 import app.ws.entrepatas.enums.ErrorCode;
 import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.PerfilEntity;
@@ -142,5 +143,33 @@ public class UsuarioServiceImpl implements UsuarioService {
         user.setFechaModificacion(LocalDateTime.now());
         repository.save(user);
         return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean changePassword(PasswordRequestDto model,UserPrincipal user) {
+        UsuarioEntity modelExist = findById(user.getId());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        encoder.matches(model.getCurrentPassword(), modelExist.getPassword());
+
+        if(!encoder.matches(model.getCurrentPassword(), modelExist.getPassword())) {
+            throw new ServiceException(ErrorCode.V019);
+        }
+
+        if (!model.getNewPassword().equals(model.getConfirmPassword())){
+            throw new ServiceException(ErrorCode.V021);
+        }
+        modelExist.setPassword(new BCryptPasswordEncoder().encode(model.getNewPassword()));
+        repository.save(modelExist);
+        return true;
+    }
+
+    @Override
+    public Boolean restoredPassword(UsuarioEntity model, UserPrincipal user) {
+        UsuarioEntity modelExist = findById(user.getId());
+        modelExist.setPassword(new BCryptPasswordEncoder().encode(model.getPersona().getNumeroDocumento()));
+        modelExist.setFechaModificacion(LocalDateTime.now());
+        modelExist.setUsuarioModifica(user.getId());
+        repository.save(modelExist);
+        return true;
     }
 }

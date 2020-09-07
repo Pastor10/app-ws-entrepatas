@@ -17,6 +17,7 @@ import app.ws.entrepatas.repository.UsuarioRepository;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.AdopcionService;
 import app.ws.entrepatas.service.EmailService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Slf4j
 public class AdopcionServiceImpl implements AdopcionService {
 
 
@@ -103,11 +105,36 @@ public class AdopcionServiceImpl implements AdopcionService {
     @Override
     public AdopcionEntity update(AdopcionEntity model) {
         AdopcionEntity modelExist = adopcionRepository.findById(model.getId()).orElseThrow(()->new ServiceException(ErrorCode.V002));
+        Integer actualAlojado= modelExist.getAnimal().getLocal().getAlojado()==null?0:modelExist.getAnimal().getLocal().getAlojado();
+        Integer nuevoAlojado=0;
+        if (model.getEstadoAdopcion().equals(EstadoAdopcion.ENTREGADO)){
+             nuevoAlojado=actualAlojado-1;
+
+            if (modelExist.getAnimal().getLocal().getCapacidad()> nuevoAlojado){
+                modelExist.getAnimal().getLocal().setDisponible(Boolean.TRUE);
+            } else{
+                modelExist.getAnimal().getLocal().setDisponible(Boolean.FALSE);
+            }
+            modelExist.getAnimal().getLocal().setAlojado(nuevoAlojado);
+            log.info("entregando mascota al local");
+        }else if (model.getEstadoAdopcion().equals(EstadoAdopcion.DEVUELTO)){
+            nuevoAlojado=actualAlojado+1;
+
+            if (modelExist.getAnimal().getLocal().getCapacidad()> nuevoAlojado){
+                modelExist.getAnimal().getLocal().setDisponible(Boolean.TRUE);
+            } else{
+                modelExist.getAnimal().getLocal().setDisponible(Boolean.FALSE);
+            }
+            modelExist.getAnimal().getLocal().setAlojado(nuevoAlojado);
+            log.info("devolviendo mascota al local");
+        }
+
         modelExist.setFechaModificacion(LocalDateTime.now());
         modelExist.setEstadoAdopcion(model.getEstadoAdopcion());
         modelExist.setFechaEntrega(model.getFechaEntrega());
         modelExist.setFechaDevolucion(model.getFechaDevolucion());
         modelExist.setMotivoDevolucion(model.getMotivoDevolucion());
+        //return null;
         return adopcionRepository.save(modelExist);
     }
 

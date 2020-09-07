@@ -7,6 +7,7 @@ import app.ws.entrepatas.model.PostulanteEntity;
 import app.ws.entrepatas.security.CurrentUser;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.PostulanteService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,21 +32,25 @@ public class PostulanteController {
     PostulanteService postulanteService;
 
     @PostMapping("/create")
+    @ApiOperation(value = "api publica para crear postulante de adopcion")
     public PostulanteDto create(@RequestBody PostulanteEntity postulante) {
         return PostulanteDto.transformToDto(postulanteService.create(postulante));
     }
 
     @GetMapping("/findAllPublicacion/{id}")
+    @ApiOperation(value = "listado de todos los postulantes por publicacion")
     public List<PostulanteDto> findAllPublicacion(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long idPublicacion) {
         return PostulanteDto.transformToDto(postulanteService.findAllByPublicacion(idPublicacion));
     }
 
     @PutMapping("/update")
+    @ApiOperation(value = "actualiza los datos del postulante de adopcion")
     public PostulanteDto update(@RequestHeader(value="Authorization") String authorization,  @ApiIgnore @CurrentUser UserPrincipal user, @RequestBody PostulanteEntity postulante) {
         return PostulanteDto.transformToDto(postulanteService.update(postulante, user));
     }
 
     @PostMapping("/colaborador")
+    @ApiOperation(value = "api publica para crear solicitudes de voluntarios")
     public PostulanteColaboradorDto creaateSolicitudColaborador(@RequestBody PostulanteColaboradorEntity postulante) {
         return PostulanteColaboradorDto.transformToDto(postulanteService.createSolicitud(postulante));
     }

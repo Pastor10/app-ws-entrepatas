@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -65,6 +66,12 @@ public class EventoDto {
     public static List<EventoDto> transformToDto(List<EventoEntity> model) {
         if (model == null) return Collections.emptyList();
         return model.stream().filter(it->!it.getEliminado())
+                .map(EventoDto::transformToDto).collect(Collectors.toList());
+    }
+
+    public static List<EventoDto> transformToDtoProximos(List<EventoEntity> model) {
+        if (model == null) return Collections.emptyList();
+        return model.stream().filter(it->!it.getEliminado() && it.getFecha().isAfter(LocalDateTime.now()))
                 .map(EventoDto::transformToDto).collect(Collectors.toList());
     }
 

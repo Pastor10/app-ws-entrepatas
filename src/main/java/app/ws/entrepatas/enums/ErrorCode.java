@@ -15,7 +15,7 @@ public enum ErrorCode {
     V018("0018","Cuenta de usuario inactiva"),
     V019("0019","La contraseña actual es incorrecta"),
     V020("0020","Ingrese todos los campos requeridos"),
-    V021("0021","La nueva contraseña ingresada no coincide con la anterior"),
+    V021("0021","Las nuevas contraseñas ingresadas no coinciden"),
     V022("0022","Usuario o contraseña incorrectos"),
     V023("0023","Su sesión ha expirado"),
     V024("0024","Error de autenticación"),

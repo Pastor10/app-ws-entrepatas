@@ -2,6 +2,7 @@ package app.ws.entrepatas.controller;
 
 import app.ws.entrepatas.dto.AnimalDto;
 import app.ws.entrepatas.service.AnimalService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,11 +27,13 @@ public class AnimalController {
     private String baseUrl;
 
     @GetMapping("/findAll")
+    @ApiOperation(value = "listamos todos los animales")
     public List<AnimalDto> findAll(@RequestHeader(value="Authorization") String authorization) {
         return AnimalDto.transformToDto(animalService.findAll());
     }
 
     @GetMapping("/findById/{id}")
+    @ApiOperation(value = "buscamos un animal por id")
     public AnimalDto findById(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long id) {
         return AnimalDto.transformToDto(animalService.findById(id).get());
     }

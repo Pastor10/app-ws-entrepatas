@@ -29,7 +29,7 @@ public class EventoEntity {
     @JoinColumn(name = "id_tipo_evento")
     public TipoEventoEntity tipoEvento;
 
-    @Column(name = "descripcion")
+    @Column(name = "descripcion", length = 500)
     public String descripcion;
 
     @Column(name = "fecha")
@@ -70,5 +70,9 @@ public class EventoEntity {
 
     @Column( name = "fecha_eliminacion")
     private LocalDateTime fechaEliminacion;
+
+
+    @Transient
+    public String fechaEvento;
 
 }

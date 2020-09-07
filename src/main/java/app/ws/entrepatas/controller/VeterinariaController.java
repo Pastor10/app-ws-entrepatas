@@ -5,6 +5,7 @@ import app.ws.entrepatas.model.VeterinariaEntity;
 import app.ws.entrepatas.security.CurrentUser;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.VeterinariaService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,21 +30,25 @@ public class VeterinariaController {
     VeterinariaService veterinariaService;
 
     @PostMapping("/create")
+    @ApiOperation(value = "creacion de veterinaria")
     public VeterinariaEntity create(@RequestHeader(value="Authorization") String authorization, @ApiIgnore @CurrentUser UserPrincipal user,@RequestBody VeterinariaEntity veterinaria) {
         return veterinariaService.create(veterinaria, user);
     }
 
     @GetMapping("/findAll")
+    @ApiOperation(value = "listado de veterinarias")
     public List<VeterinariaEntity> findAll(@RequestHeader(value="Authorization") String authorization) {
         return veterinariaService.findAll();
     }
 
     @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "eliminar  veterinaria por id")
     public void delete(@RequestHeader(value="Authorization") String authorization, @ApiIgnore @CurrentUser UserPrincipal user,@PathVariable("id") Long id) {
         veterinariaService.delete(id, user);
     }
 
     @PutMapping("/update")
+    @ApiOperation(value = "actualizar  veterinaria ")
     public VeterinariaEntity update(@RequestHeader(value="Authorization") String authorization, @ApiIgnore @CurrentUser UserPrincipal user,@RequestBody VeterinariaEntity model) {
         return  veterinariaService.update(model, user);
 

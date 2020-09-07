@@ -5,6 +5,7 @@ import app.ws.entrepatas.model.CitaMedicaEntity;
 import app.ws.entrepatas.security.CurrentUser;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.CitaMedicaService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,11 +26,13 @@ public class CitaMedicaController {
     CitaMedicaService citaMedicaService;
 
     @PostMapping("/create")
+    @ApiOperation(value = "registramos una cita medica del animal")
     public CitaMedicaDto create(@RequestHeader(value="Authorization") String authorization,@RequestBody CitaMedicaEntity cita) {
         return CitaMedicaDto.transformToDto(citaMedicaService.create(cita)) ;
     }
 
     @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "eliminamos una cita medica del animal por id")
     public void delete(@RequestHeader(value="Authorization") String authorization, @PathVariable("id") Long id, @ApiIgnore @CurrentUser UserPrincipal user) {
         citaMedicaService.delete(id, user);
 

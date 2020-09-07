@@ -1,6 +1,8 @@
 package app.ws.entrepatas.repository;
 
 import app.ws.entrepatas.model.EventoEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +21,6 @@ public interface EventoRepository extends JpaRepository<EventoEntity, Long> {
     void delete(@Param("id") Long id, @Param("idUser") Long idUser, @Param("deleteOn") LocalDateTime deleteOn);
 
 
+    @Query(value = "select e from EventoEntity e where e.eliminado=false")
+    Page<EventoEntity> findAllEvento(Pageable pageable);
 }

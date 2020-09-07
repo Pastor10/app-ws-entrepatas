@@ -1,6 +1,7 @@
 package app.ws.entrepatas.service;
 
 
+import app.ws.entrepatas.dto.request.PasswordRequestDto;
 import app.ws.entrepatas.exception.NoExistEntityException;
 import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.UsuarioEntity;
@@ -21,4 +22,6 @@ public interface UsuarioService {
     Page<UsuarioEntity> findAll(String nombres, String documento, Pageable pageable);
     List<UsuarioEntity> findAllIntegrantes();
     Boolean validateUuid(String uuid) throws ServiceException;
+    Boolean changePassword(PasswordRequestDto model, UserPrincipal user);
+    Boolean restoredPassword(UsuarioEntity model, UserPrincipal user);
 }

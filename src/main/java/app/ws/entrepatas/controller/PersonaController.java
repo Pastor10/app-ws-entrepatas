@@ -5,6 +5,7 @@ import app.ws.entrepatas.model.PersonaEntity;
 import app.ws.entrepatas.service.AmazonS3ClientService;
 import app.ws.entrepatas.service.PersonaService;
 import app.ws.entrepatas.util.Constantes;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,16 +34,19 @@ public class PersonaController {
     private AmazonS3ClientService amazonS3ClientService;
 
     @GetMapping("/findByDocumento")
+    @ApiOperation(value = "api publica para buscar persona por documento")
     public PersonaDto findByDocumento(@RequestParam String documento) {
         return PersonaDto.transformToDto(personaService.findByDocumento(documento));
     }
 
     @PutMapping("/update")
+    @ApiOperation(value = "actualizar datos de persona")
     public PersonaDto update(@RequestHeader(value="Authorization") String authorization,@RequestBody PersonaEntity persona) {
         return PersonaDto.transformToDto(personaService.update(persona));
     }
 
     @PostMapping("/upload")
+    @ApiOperation(value = "subir foto de persona")
     public ResponseEntity<Map<String, String>> uploadFsPublic(@RequestHeader(value="Authorization") String authorization,@RequestPart(value = "file") MultipartFile file) {
         return ResponseEntity.ok().body(amazonS3ClientService.uploadFilePublic(file, Constantes.FILES_USERS));
 

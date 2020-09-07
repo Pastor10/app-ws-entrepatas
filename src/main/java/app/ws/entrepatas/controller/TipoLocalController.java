@@ -3,6 +3,7 @@ package app.ws.entrepatas.controller;
 import app.ws.entrepatas.exception.NoExistEntityException;
 import app.ws.entrepatas.model.TipoLocalEntity;
 import app.ws.entrepatas.service.TipoLocalService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,21 +28,25 @@ public class TipoLocalController {
     TipoLocalService tipoLocalService;
 
     @GetMapping("findAll")
+    @ApiOperation(value = "listar tipo local")
     public List<TipoLocalEntity> findAll(@RequestHeader(value="Authorization") String authorization){
         return tipoLocalService.findAll();
     }
 
     @PostMapping("/create")
+    @ApiOperation(value = "crear tipo local")
     public TipoLocalEntity create(@RequestHeader(value="Authorization") String authorization,@RequestBody @Valid TipoLocalEntity tipoLocal) {
         return tipoLocalService.create(tipoLocal);
     }
 
     @PutMapping("/update")
+    @ApiOperation(value = "actualizar tipo local")
     public TipoLocalEntity update(@RequestHeader(value="Authorization") String authorization,@RequestBody @Valid TipoLocalEntity tipoLocal) throws Exception {
         return tipoLocalService.update(tipoLocal);
     }
 
     @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "eliminar tipo local por id")
     public void delete(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long id) {
         try {
             tipoLocalService.delete(id);

@@ -2,6 +2,7 @@ package app.ws.entrepatas.controller;
 
 import app.ws.entrepatas.service.AmazonS3ClientService;
 import app.ws.entrepatas.util.Constantes;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -38,6 +39,7 @@ public class FileController {
     }
 
     @PostMapping("/upload")
+    @ApiOperation(value = "subir foto para publicar un animal")
     public ResponseEntity<Map<String, String>> uploadPublic(@RequestHeader(value="Authorization") String authorization,@RequestPart(value = "file") MultipartFile file) {
         return ResponseEntity.ok().body(amazonS3ClientService.uploadFilePublic(file, Constantes.FILES_PUBLICACION));
 

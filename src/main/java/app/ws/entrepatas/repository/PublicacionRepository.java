@@ -28,8 +28,6 @@ public interface PublicacionRepository extends JpaRepository<PublicacionEntity, 
             " where p.eliminado = false and pe.id not in (:idPerfil) " +
             " and (COALESCE(:condicion) is null or c.nombre in (:condicion))" +
             " and ((:fechaDesde is null or :fechaHasta is null) or (p.fechaCreacion between :fechaDesde and :fechaHasta)) ")
-
-   // + "where e.id = :idEmpresa and "
     Page<PublicacionEntity> findAllPublicaciones(@Param("fechaDesde") LocalDate fechaDesde, @Param("fechaHasta") LocalDate fechaHasta, @Param("condicion") List<CondicionAnimal> condicion,
                                                  @Param("idPerfil") Long idPerfil, Pageable pageable);
 
@@ -38,5 +36,6 @@ public interface PublicacionRepository extends JpaRepository<PublicacionEntity, 
             " join u.perfil pe " +
             " where p.eliminado = false and  pe.id =:idPerfil")
     Page<PublicacionEntity> findAllPublicacionesVisitantes(@Param("idPerfil") Long idPerfil, Pageable pageable);
+
 
 }

@@ -8,6 +8,7 @@ import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.PublicacionService;
 import app.ws.entrepatas.util.UtilDate;
 import com.amazonaws.services.s3.AmazonS3;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -49,12 +50,14 @@ public class PublicacionController {
 
 
     @PostMapping("/create")
+    @ApiOperation(value = "creacion de publicacion")
     public PublicacionDto create(@RequestHeader(value="Authorization") String authorization, @ApiIgnore @CurrentUser UserPrincipal user, @RequestBody PublicacionEntity publicacion) {
         return PublicacionDto.transformToDto(publicacionService.create(publicacion, user));
 
     }
 
     @GetMapping("/findAll")
+    @ApiOperation(value = "lista de todas las publicaciones creadas")
     public ResponseEntity<Page<PublicacionDto>> findAll(@RequestHeader(value="Authorization") String authorization,
                                                         @RequestParam(name = "page") Integer page,
                                                         @RequestParam(name = "perPage") Integer perPage,
@@ -70,6 +73,7 @@ public class PublicacionController {
     }
 
     @GetMapping("/findAll-visitantes")
+    @ApiOperation(value = "lista de todas las publicaciones de los visitantes creadas")
     public ResponseEntity<Page<PublicacionDto>> findAllVisitantes(@RequestHeader(value="Authorization") String authorization,
                                                         @RequestParam(name = "page") Integer page,
                                                         @RequestParam(name = "perPage") Integer perPage) {
@@ -79,27 +83,32 @@ public class PublicacionController {
 
 
     @GetMapping("/findAllAprobadas")
+    @ApiOperation(value = " api publica de todas las publicaciones aprobadas")
     public List<PublicacionDto> findAllAprobadas() {
         return PublicacionDto.transformToDtoAprobados(publicacionService.findAllPublicaciones());
     }
 
     @GetMapping("/publicacion-adopcion")
+    @ApiOperation(value = " lista de las publicaciones en condicion de adopcion")
     public List<PublicacionDto> findAllCondicionAdopcion(@RequestHeader(value="Authorization") String authorization) {
         return PublicacionDto.transformToDtoCondicionAdopcion(publicacionService.findAllPublicaciones());
     }
 
     @GetMapping("/findAllById/{id}")
+    @ApiOperation(value = " busqueda de una publicacion por id")
     public List<PublicacionDto>findAllById(@RequestHeader(value="Authorization") String authorization,
                                             @PathVariable(name = "id") Long id) {
         return PublicacionDto.transformToDto(publicacionService.findAllById(id));
     }
 
     @PutMapping("/update")
+    @ApiOperation(value = " actualizar publicacion")
     public PublicacionDto update(@RequestHeader(value="Authorization") String authorization, @ApiIgnore @CurrentUser UserPrincipal user,@RequestBody PublicacionEntity publicacion) throws Exception {
         return PublicacionDto.transformToDto(publicacionService.update(publicacion, user));
     }
 
     @GetMapping("/findById/{id}")
+    @ApiOperation(value = " buscar  publicacion por id")
     public PublicacionDto findById(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long id) {
         return PublicacionDto.transformToDto(publicacionService.findById(id));
     }

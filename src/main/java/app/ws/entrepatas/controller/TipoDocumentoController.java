@@ -4,6 +4,7 @@ package app.ws.entrepatas.controller;
 
 import app.ws.entrepatas.model.TipoDocumentoEntity;
 import app.ws.entrepatas.service.TipoDocumentoService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ public class TipoDocumentoController {
     TipoDocumentoService tipoDocumentoService;
 
     @GetMapping("/findAll")
+    @ApiOperation(value = "api publica lista tipo documento")
     public List<TipoDocumentoEntity> findAll() {
         return tipoDocumentoService.findAll();
     }
