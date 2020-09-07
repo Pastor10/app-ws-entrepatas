@@ -9,6 +9,7 @@ import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.PostulanteService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,11 +38,13 @@ public class PostulanteController {
         return PostulanteDto.transformToDto(postulanteService.create(postulante));
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADOPCION_POSTULANTE_LISTADO')")
     @GetMapping("/findAllPublicacion/{id}")
     @ApiOperation(value = "listado de todos los postulantes por publicacion")
     public List<PostulanteDto> findAllPublicacion(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long idPublicacion) {
         return PostulanteDto.transformToDto(postulanteService.findAllByPublicacion(idPublicacion));
     }
+
 
     @PutMapping("/update")
     @ApiOperation(value = "actualiza los datos del postulante de adopcion")

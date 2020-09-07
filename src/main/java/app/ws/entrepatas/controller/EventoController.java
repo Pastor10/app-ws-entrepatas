@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,12 +43,14 @@ public class EventoController {
     @Autowired
     private AmazonS3ClientService amazonS3ClientService;
 
+    @PreAuthorize("hasAuthority('ROLE_EVENTO_GENERA')")
     @PostMapping("/create")
     @ApiOperation(value = "creacion de eventos")
     public EventoEntity create(@RequestHeader(value="Authorization") String authorization, @RequestBody EventoEntity evento, @ApiIgnore @CurrentUser UserPrincipal user) {
         return eventoService.create(evento, user);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_EVENTO_LISTADO')")
     @GetMapping("findAll")
     @ApiOperation(value = "listado de todos los eventos creados")
     public ResponseEntity<Page<EventoEntity>> findAll(@RequestHeader(value="Authorization") String authorization,
@@ -63,6 +66,7 @@ public class EventoController {
         return EventoDto.transformToDtoProximos(eventoService.findAllProximos());
     }
 
+    @PreAuthorize("hasAuthority('ROLE_EVENTO_GENERA')")
     @PostMapping("/upload")
     @ApiOperation(value = "subir una imagen de evento")
     public ResponseEntity<Map<String, String>> uploadFsPublic(@RequestHeader(value="Authorization") String authorization,@RequestPart(value = "file") MultipartFile file) {
@@ -70,12 +74,14 @@ public class EventoController {
 
     }
 
+    @PreAuthorize("hasAuthority('ROLE_EVENTO_GENERA')")
     @PutMapping("/update")
     @ApiOperation(value = "actualizar datos de evento")
     public EventoEntity update(@RequestHeader(value="Authorization") String authorization, @RequestBody EventoEntity evento, @ApiIgnore @CurrentUser UserPrincipal user) {
         return eventoService.update(evento, user);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_EVENTO_GENERA')")
     @GetMapping("/findById/{id}")
     @ApiOperation(value = "buscar un evento por id")
     public EventoEntity findById(@RequestHeader(value="Authorization") String authorization, @PathVariable("id") Long id) {

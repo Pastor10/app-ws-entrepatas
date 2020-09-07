@@ -5,6 +5,7 @@ import app.ws.entrepatas.service.AnimalService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +24,7 @@ public class AnimalController {
     @Autowired
     AnimalService animalService;
 
-    @Value("${app.aws.s3.baseUrl}")
-    private String baseUrl;
+
 
     @GetMapping("/findAll")
     @ApiOperation(value = "listamos todos los animales")

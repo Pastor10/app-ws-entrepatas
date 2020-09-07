@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,7 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/create")
     @ApiOperation(value = "creacion de usuario")
     public UsuarioEntity create(@RequestHeader(value="Authorization") String authorization,@RequestBody UsuarioEntity usuario, @ApiIgnore @CurrentUser UserPrincipal user) {
@@ -52,19 +54,21 @@ public class UsuarioController {
         return usuarioService.createVisitante(usuario);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @PutMapping("/update")
     @ApiOperation(value = "actualizar los datos de un usuario")
     public UsuarioEntity update(@RequestHeader(value="Authorization") String authorization,@RequestBody UsuarioEntity usuario,@ApiIgnore @CurrentUser UserPrincipal user)  {
         return usuarioService.update(usuario, user);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "eliminar un usuario por el id enviado")
     public void delete(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long id,@ApiIgnore @CurrentUser UserPrincipal user) {
             usuarioService.delete(id, user);
 
     }
-
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/findAll")
     @ApiOperation(value = "obtenenos todos los usuarios registrados")
     public ResponseEntity<Page<UsuarioDto>> findAll(@RequestHeader(value="Authorization") String authorization,
@@ -90,7 +94,7 @@ public class UsuarioController {
 
 
     @PutMapping("/validate-uuid/{uuid}")
-    @ApiOperation(value = "Valida el codigo uuid que se le envio al correo")
+    @ApiOperation(value = "api publica valida el codigo uuid que se le envio al correo")
     public ResponseEntity<Boolean> validateUuid(@PathVariable("uuid")  String uuid) throws ServiceException {
         return new ResponseEntity<>(usuarioService.validateUuid(uuid), HttpStatus.OK);
 
@@ -103,6 +107,7 @@ public class UsuarioController {
 
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/restored-password")
     @ApiOperation(value = "restaura la contraseña por defecto del usuario")
     public ResponseEntity<Boolean> restoredPassword(@RequestHeader(value="Authorization") String authorization,@RequestBody UsuarioEntity model, @ApiIgnore @CurrentUser UserPrincipal user) throws ServiceException {

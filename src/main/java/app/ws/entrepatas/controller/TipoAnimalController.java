@@ -5,6 +5,7 @@ import app.ws.entrepatas.model.TipoAnimalEntity;
 import app.ws.entrepatas.service.TipoAnimalService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class TipoAnimalController {
     @Autowired
     TipoAnimalService tipoAnimalService;
 
+    @PreAuthorize("hasAuthority('ROLE_ANIMAL_TIPO')")
     @PostMapping("/create")
     @ApiOperation(value = "creacion tipo animal")
     public TipoAnimalEntity create(@RequestHeader(value="Authorization") String authorization,@RequestBody TipoAnimalEntity tipo) {
@@ -29,6 +31,7 @@ public class TipoAnimalController {
         return tipoAnimalService.findAll();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ANIMAL_TIPO')")
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "eliminar tipo animal por id")
     public void delete(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long id) {
@@ -39,6 +42,7 @@ public class TipoAnimalController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ANIMAL_TIPO')")
     @PutMapping("/update")
     @ApiOperation(value = "actualizar datos tipo animal")
     public TipoAnimalEntity update(@RequestHeader(value="Authorization") String authorization,@RequestBody TipoAnimalEntity tipo) throws Exception {

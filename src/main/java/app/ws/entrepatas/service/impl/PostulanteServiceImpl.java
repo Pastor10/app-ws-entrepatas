@@ -1,32 +1,27 @@
 package app.ws.entrepatas.service.impl;
 
 import app.ws.entrepatas.enums.ErrorCode;
-import app.ws.entrepatas.exception.NoExistEntityException;
 import app.ws.entrepatas.exception.ServiceException;
 import app.ws.entrepatas.model.DetalleCuestionarioEntity;
-import app.ws.entrepatas.model.OpcionEntity;
 import app.ws.entrepatas.model.PersonaEntity;
 import app.ws.entrepatas.model.PostulanteColaboradorEntity;
 import app.ws.entrepatas.model.PostulanteEntity;
 import app.ws.entrepatas.model.PublicacionEntity;
 import app.ws.entrepatas.model.TipoCuestionarioEntity;
-import app.ws.entrepatas.model.UsuarioEntity;
 import app.ws.entrepatas.repository.CuestionarioRepository;
 import app.ws.entrepatas.repository.OpcionRepository;
 import app.ws.entrepatas.repository.PersonaRepository;
 import app.ws.entrepatas.repository.PostulanteColaboradorRepository;
 import app.ws.entrepatas.repository.PostulanteRepository;
+import app.ws.entrepatas.repository.PublicacionRepository;
 import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.EmailService;
 import app.ws.entrepatas.service.PostulanteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostulanteServiceImpl implements PostulanteService {
@@ -48,6 +43,9 @@ public class PostulanteServiceImpl implements PostulanteService {
 
     @Autowired
     OpcionRepository opcionRepository;
+
+    @Autowired
+    PublicacionRepository publicacionRepository;
 
     @Override
     public PostulanteEntity create(PostulanteEntity model) {
@@ -75,6 +73,13 @@ public class PostulanteServiceImpl implements PostulanteService {
             });
 
         }
+
+        PublicacionEntity publicacion = publicacionRepository.findById(model.getPublicacion().getId()).orElseThrow(()->new ServiceException(ErrorCode.V002));
+        Integer totalPostulante = publicacion.getTotalPostulante()==null?0:publicacion.getTotalPostulante();
+        totalPostulante = totalPostulante+1;
+        publicacion.setTotalPostulante(totalPostulante);
+        publicacionRepository.save(publicacion);
+
         model.setEliminado(Boolean.FALSE);
         model.setFechaCreacion(LocalDateTime.now());
         emailService.sendEmailPostulante(model);

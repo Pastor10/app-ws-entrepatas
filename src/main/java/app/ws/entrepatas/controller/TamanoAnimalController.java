@@ -5,6 +5,7 @@ import app.ws.entrepatas.model.TamanoAnimalEntity;
 import app.ws.entrepatas.service.TamanoAnimalService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class TamanoAnimalController {
     @Autowired
     TamanoAnimalService tamanoAnimalService;
 
+    @PreAuthorize("hasAuthority('ROLE_ANIMAL_TAMANO')")
     @PostMapping("/create")
     @ApiOperation(value = "creacion tamano animal")
     public TamanoAnimalEntity create(@RequestHeader(value="Authorization") String authorization,@RequestBody TamanoAnimalEntity tamano) {
@@ -30,6 +32,7 @@ public class TamanoAnimalController {
         return tamanoAnimalService.findAll();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ANIMAL_TAMANO')")
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "eliminar tamano animal por id")
     public void delete(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long id) {
@@ -40,6 +43,7 @@ public class TamanoAnimalController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ANIMAL_TAMANO')")
     @PutMapping("/update")
     @ApiOperation(value = "actualizar datos tamano animal")
     public TamanoAnimalEntity update(@RequestHeader(value="Authorization") String authorization,@RequestBody TamanoAnimalEntity tamano) throws Exception {

@@ -6,6 +6,7 @@ import app.ws.entrepatas.security.UserPrincipal;
 import app.ws.entrepatas.service.VeterinarioService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -19,24 +20,28 @@ public class VeterinarioController {
     @Autowired
     VeterinarioService veterinarioService;
 
+    @PreAuthorize("hasAuthority('ROLE_VETERINARIO')")
     @PostMapping("/create")
     @ApiOperation(value = "creacion de  veterinario ")
     public VeterinarioEntity create(@RequestHeader(value="Authorization") String authorization, @ApiIgnore @CurrentUser UserPrincipal user, @RequestBody VeterinarioEntity veterinario) {
         return veterinarioService.create(veterinario, user);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_VETERINARIO')")
     @GetMapping("/findAll")
     @ApiOperation(value = "listado de  veterinarios ")
     public List<VeterinarioEntity> findAll(@RequestHeader(value="Authorization") String authorization) {
         return veterinarioService.findAll();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_VETERINARIO')")
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "eliminar  veterinario por id ")
     public void delete(@RequestHeader(value="Authorization") String authorization, @ApiIgnore @CurrentUser UserPrincipal user,@PathVariable("id") Long id) {
        veterinarioService.delete(id, user);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_VETERINARIO')")
     @PutMapping("/update")
     @ApiOperation(value = "actualizar  veterinario ")
     public VeterinarioEntity update(@RequestHeader(value="Authorization") String authorization, @ApiIgnore @CurrentUser UserPrincipal user,@RequestBody VeterinarioEntity veterinario) throws Exception {

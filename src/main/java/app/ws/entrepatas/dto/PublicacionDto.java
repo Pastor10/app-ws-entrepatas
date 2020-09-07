@@ -3,13 +3,15 @@ package app.ws.entrepatas.dto;
 import app.ws.entrepatas.enums.CondicionAnimal;
 import app.ws.entrepatas.enums.EstadoPublicacion;
 import app.ws.entrepatas.model.CondicionEntity;
-import app.ws.entrepatas.model.PersonaEntity;
 import app.ws.entrepatas.model.PublicacionEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -26,22 +28,15 @@ import java.util.stream.Collectors;
 public class PublicacionDto {
 
     public  Long id;
-
     public String descripcion;
-
     public AnimalDto animal;
-
     public UsuarioDto usuarioPublica;
-
     public UsuarioDto usuarioEvalua;
-
     public EstadoPublicacion estadoPublicacion;
-
     public CondicionEntity condicion;
-
     public LocalDateTime fechaCreacion;
-
     public String observacion;
+    public Integer totalPostulante;
 
     public static PublicacionDto transformToDto(PublicacionEntity model) {
         if (model == null) return null;
@@ -56,6 +51,7 @@ public class PublicacionDto {
                 .observacion(model.getObservacion())
                 .condicion(CondicionEntity.builder().id(model.getCondicion().getId()).nombre(model.getCondicion().getNombre()).build())
                 .fechaCreacion(model.getFechaCreacion())
+                .totalPostulante(model.getTotalPostulante())
                 .build();
     }
 

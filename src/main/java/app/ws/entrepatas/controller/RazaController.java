@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,12 +32,14 @@ public class RazaController {
     @Autowired
     RazaService razaService;
 
+    @PreAuthorize("hasAuthority('ROLE_ANIMAL_RAZA')")
     @PostMapping("/create")
     @ApiOperation(value = "creacion de raza")
     public RazaEntity create(@RequestHeader(value="Authorization") String authorization,@RequestBody RazaEntity raza) {
         return razaService.create(raza);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ANIMAL_RAZA')")
     @GetMapping("/findAll")
     @ApiOperation(value = "listado de razas")
     public ResponseEntity<Page<RazaEntity>> findAll(@RequestHeader(value="Authorization") String authorization,
@@ -46,6 +49,7 @@ public class RazaController {
         return ResponseEntity.ok().body(razaService.findAll(pageable));
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ANIMAL_RAZA')")
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "eliminar raza por id")
     public void delete(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long id) {
@@ -56,11 +60,13 @@ public class RazaController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ANIMAL_RAZA')")
     @PutMapping("/update")
     @ApiOperation(value = "actualizar datos de una raza")
     public RazaEntity update(@RequestHeader(value="Authorization") String authorization,@RequestBody RazaEntity raza) throws Exception {
         return razaService.update(raza);
     }
+
 
     @GetMapping("/findById/{id}")
     @ApiOperation(value = "buscar una raza por id")

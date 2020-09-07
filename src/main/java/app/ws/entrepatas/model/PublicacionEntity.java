@@ -30,6 +30,9 @@ public class PublicacionEntity {
     @Column(name = "observacion", length = 400)
     public String observacion;
 
+    @Column(name = "total_postulante")
+    public Integer totalPostulante;
+
     @OneToOne
     @JoinColumn(name = "id_animal")
     public AnimalEntity animal;

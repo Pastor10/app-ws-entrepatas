@@ -5,6 +5,7 @@ import app.ws.entrepatas.model.TipoLocalEntity;
 import app.ws.entrepatas.service.TipoLocalService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,24 +28,28 @@ public class TipoLocalController {
     @Autowired
     TipoLocalService tipoLocalService;
 
+    @PreAuthorize("hasAuthority('ROLE_LOCAL_TIPO')")
     @GetMapping("findAll")
     @ApiOperation(value = "listar tipo local")
     public List<TipoLocalEntity> findAll(@RequestHeader(value="Authorization") String authorization){
         return tipoLocalService.findAll();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_LOCAL_TIPO')")
     @PostMapping("/create")
     @ApiOperation(value = "crear tipo local")
     public TipoLocalEntity create(@RequestHeader(value="Authorization") String authorization,@RequestBody @Valid TipoLocalEntity tipoLocal) {
         return tipoLocalService.create(tipoLocal);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_LOCAL_TIPO')")
     @PutMapping("/update")
     @ApiOperation(value = "actualizar tipo local")
     public TipoLocalEntity update(@RequestHeader(value="Authorization") String authorization,@RequestBody @Valid TipoLocalEntity tipoLocal) throws Exception {
         return tipoLocalService.update(tipoLocal);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_LOCAL_TIPO')")
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "eliminar tipo local por id")
     public void delete(@RequestHeader(value="Authorization") String authorization,@PathVariable("id") Long id) {
